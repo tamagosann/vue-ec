@@ -1,0 +1,188 @@
+
+
+
+ログイン  　　=> 商品一覧（home） => itemDetail => AddedToCart => settlement => settleConfirm => thanks!
+サインアップ                                                 => 商品一覧(home)
+                             
+
+App.js
+
+
+<App>
+    <Header />
+    <sidebar />
+    <main />　=> routerで管理
+    <Footer />
+</App>
+
+
+サインアップview
+
+<html>
+    <body>
+        ・名前
+        ・メールアドレス
+        ・住所
+        ・登録ボタン
+    </body>
+</html>
+
+ログインview
+
+<html>
+    <body>
+        ・メールアドレス
+        ・パスワード
+    </body>
+</html>
+
+header.component
+
+<html>
+    <body>
+        <Header>
+            左
+            <Logo />
+
+            右
+            <ToCart />
+            <ToAccountSettings />
+
+        </Header>
+    </body>
+</html>
+
+sidebar.component
+
+<html>
+    <body>
+        <SideBar>
+            <List>
+                ・アカウント設定画面へ
+                ・カートへ
+                ・購入履歴へ
+            </List>
+        </SideBar>
+    </body>
+</html>
+
+home.view
+
+<html>
+    <body>
+        <List>
+            <Card>
+                商品A
+            </Card>
+            <Card>
+                商品B
+            </Card>
+            <Card>
+                商品C
+            </Card>
+            <Card>
+                商品D
+            </Card>
+        </List>
+        <Pagination />
+    </body>
+</html>
+
+itemDetail.view
+
+<html>
+    <body>
+        <List>
+            <ProductName />
+            <ProductImg />
+            <ProductDetail />
+            <ProductSize /> => selectBox
+            <ProductQuantity /> => inputType: number
+        </List>
+        ・カートへ追加ボタン　=>サイズと数を選んでから
+    </body>
+</html>
+
+itemDetail/edit.view
+
+<html>
+    <body>
+        <List>
+            <ProductName />
+            <ProductImg />
+            <ProductDetail />
+            <ProductSize /> => selectBox
+            <ProductQuantity /> => inputType: number
+        </List>
+        ・Productsへ追加ボタン
+    </body>
+</html>
+
+
+cart.view
+
+<html>
+    <body>
+        <List>
+            <ListItem>
+                <ProductName />
+                <ProductImg />
+                <ProductDetail />
+                <ProductSize />
+                <ProductQuantity />
+            </ListItem>
+            <ListItem>
+                <ProductName />
+                <ProductImg />
+                <ProductDetail />
+                <ProductSize />
+                <ProductQuantity />
+            </ListItem>
+            <ListItem>
+                <ProductName />
+                <ProductImg />
+                <ProductDetail />
+                <ProductSize />
+                <ProductQuantity />
+            </ListItem>
+        </List>
+        <SumPrice />
+        <ToSettle />
+    </body>
+</html>
+
+settle.js　
+
+<html>
+    <body>
+        ・住所
+        ・決済方法
+        ・確認画面へボタン
+        ・戻るボタン
+    </body>
+</html>
+
+settleConfirm.js
+
+<html>
+    <body>
+        ・住所
+        ・決済方法
+        ・決済ボタン
+        ・戻るボタン
+    </body>
+</html>
+
+
+thanks.js 
+
+<html>
+    <body>
+        ありがとうございました。
+        ・戻るボタン
+    </body>
+</html>
+
+
+
+login => home => cart 

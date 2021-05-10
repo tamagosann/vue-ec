@@ -4,9 +4,6 @@
       こんにちは
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
-      <router-link to="/itemList">ItemList</router-link>
-      <router-link to="/itemDetail">ItemDetail</router-link>
-      <router-link to="/cartList">CartList</router-link>
     </div>
     <router-view/>
   </div>

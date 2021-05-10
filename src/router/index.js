@@ -6,6 +6,7 @@ import OrderFinished from '../views/OrderFinished';
 import OrderConfirm from '../views/OrderConfirm';
 import ItemDetail from '../views/ItemDetail';
 import CartList from '../views/CartList';
+import Login from '../views/Login';
 
 
 
@@ -41,6 +42,11 @@ const routes = [
     path: '/cartList',
     name: 'CartList',
     component: CartList,
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
   },
   {
     path: '/about',

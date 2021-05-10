@@ -17,6 +17,8 @@
                 </div>
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
+
+				<!-- リンク -->
                 <div class="collapse navbar-collapse"
                     id="bs-example-navbar-collapse-1">
                     <p class="navbar-text navbar-right">
@@ -35,6 +37,8 @@
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<h3 class="text-center">注文内容確認</h3>
+
+			
 				<table class="table table-striped item-list-table">
 					<tbody>
 						<tr>
@@ -45,97 +49,30 @@
 							</th>
 							<th>
 								<div class="text-center">
-									サイズ、価格(税抜)、数量
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									トッピング、価格(税抜)
-								</div>
-							</th>
-							<th>
-								<div class="text-center">
-									小計
+									価格(税抜)
 								</div>
 							</th>
 						</tr>
-						<tr>
+
+						<tr v-for="item in items" :key="item.id">
 							<td>
 								<div class="center">
-									<img src=""
-										class="img-responsive img-rounded item-img-center" width="100" height="300"><br>
-									じゃがバターベーコン
+									<img :src="item.path"
+										class="img-responsive img-rounded item-img-center" width="300" height="300">
+										<br>
+									{{item.name}}
 								</div>
 							</td>
-							<td>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個
-							</td>
-							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
-								</ul>
-							</td>
-							<td>
-								<div class="text-center">
-									3,280円
-								</div>
+							<td width="100px">
+								<span class="price">
+									{{item.price}}円	
+								</span>
 							</td>
 						</tr>
-						<tr>
-							<td>
-								<div class="center">
-									<img src=""
-										class="img-responsive img-rounded item-img-center" width="100" height="300"><br>
-									じゃがバターベーコン
-								</div>
-							</td>
-							<td>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個
-							</td>
-							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
-								</ul>
-							</td>
-							<td>
-								<div class="text-center">
-									3,280円
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<div class="center">
-									<img src=""
-										class="img-responsive img-rounded item-img-center" width="100" height="300"><br>
-									じゃがバターベーコン
-								</div>
-							</td>
-							<td>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円
-								&nbsp;&nbsp;1個
-							</td>
-							<td>
-								<ul>
-									<li>ピーマン300円</li>
-									<li>オニオン300円</li>
-									<li>あらびきソーセージ300円</li>
-								</ul>
-							</td>
-							<td>
-								<div class="text-center">
-									3,280円
-								</div>
-							</td>
-						</tr>
+						
 					</tbody>
 				</table>
+
 			</div>
 		</div>
 
@@ -148,7 +85,7 @@
 			</div>
 		</div>
 
-        <!-- table -->
+        <!-- table（お届け先情報） -->
 		<form action="order_finished.html">
 			<div class="row">
 				<div
@@ -156,56 +93,17 @@
 					<h3 class="text-center">お届け先情報</h3>
 					<table class="table table-striped item-list-table">
 						<tbody>
-							<tr>
+							<tr v-for="title in addressInfoTitles" :key="title.title">
 								<td>
 									<div class="text-center">
-										お名前
+										{{title.title}}
 									</div>
 								</td>
 								<td>
 									<input type="text">
 								</td>
 							</tr>
-							<tr>
-								<td>
-									<div class="text-center">
-										メールアドレス
-									</div>
-								</td>
-								<td>
-									<input type="text">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="text-center">
-										郵便番号
-									</div>
-								</td>
-								<td>
-									<input type="text">&nbsp;&nbsp;<button>住所検索</button>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="text-center">
-										住所
-									</div>
-								</td>
-								<td>
-									<input type="text">
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<div class="text-center">
-										電話番号
-									</div>
-								</td>
-								<td>
-									<input type="text">
-								</td>
-							</tr>
+							
 							<tr>
 								<td>
 									<div class="text-center">
@@ -219,12 +117,16 @@
 												<label
 													class="control-label" style="color: red" for="inputPeriod">配達日時を入力してください</label>
 											</div>
+
+											<!-- カレンダー -->
 											<div class="col-sm-5">
 												<input type="date" name="name" id="name"
 													class="form-control input-sm" />
 											</div>
 
 										</div>
+
+										<!-- ラジオボタン（配送時間） -->
 										<div class="row">
 											<div class="col-sm-12">
 												<label class="radio-inline">
@@ -232,48 +134,12 @@
 														name="responsibleCompany" checked="checked">
 													10時
 												</label>
-												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
-													11時
-												</label>
-												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
-													12時
-												</label><br>
-												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
-													13時
-												</label>
-												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
-													14時
-												</label>
-												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
-													15時
-												</label><br>
-												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
-													16時
-												</label>
-												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
-													17時
-												</label>
-												<label class="radio-inline">
-													<input type="radio"
-														name="responsibleCompany">
-													18時
-												</label><br>
+												<br>
 											</div>
 										</div>
+
+
+
 									</div>
 								</td>
 							</tr>
@@ -291,11 +157,6 @@
 						<tbody>
 							<tr>
 								<td>
-									<div class="text-center">
-										代金引換
-									</div>
-								</td>
-								<td>
 									<div class="row">
 										<div class="col-sm-12">
 											<label class="radio-inline">
@@ -308,11 +169,6 @@
 								</td>
 							</tr>
 							<tr>
-								<td>
-									<div class="text-center">
-										クレジットカード決済
-									</div>
-								</td>
 								<td align="center">
 									<div class="row">
 										<div class="col-sm-12">
@@ -343,7 +199,37 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 export default({
-    name: 'OrderConfirm'
+    name: 'OrderConfirm',
+	data(){
+		return {
+			addressInfoTitles: [
+				{title: "お名前"},
+				{title: "メールアドレス"},
+				{title: "郵便番号"},
+				{title: "住所"},
+				{title: "電話番号"},
+			],
+			times: [
+				{text: '10時'},
+				{text: '11時'},
+				{text: '12時'},
+				{text: '13時'},
+			],
+		}
+	},
+	computed: {
+		...mapGetters(['items'])
+	}
+
 })
 </script>
+
+<style>
+	.table{
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+</style>

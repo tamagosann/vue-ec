@@ -1,6 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import ItemList from '../views/ItemList.vue';
+import RegisterUser from '../views/RegisterUser';
+import OrderFinished from '../views/OrderFinished';
+import OrderConfirm from '../views/OrderConfirm';
+import ItemDetail from '../views/ItemDetail';
+import CartList from '../views/CartList';
+
 
 
 Vue.use(VueRouter)
@@ -8,8 +14,33 @@ Vue.use(VueRouter)
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    name: 'ItemList',
+    component: ItemList,
+  },
+  {
+    path: '/registeruser',
+    name: 'RegisterUser',
+    component: RegisterUser,
+  },
+  {
+    path: '/order/finished',
+    name: 'OrderFinished',
+    component: OrderFinished,
+  },
+  {
+    path: '/order/confirm',
+    name: 'OrderConfirm',
+    component: OrderConfirm,
+  },
+  {
+    path: '/item/detail',
+    name: 'ItemDetail',
+    component: ItemDetail,
+  },
+  {
+    path: '/cartList',
+    name: 'CartList',
+    component: CartList,
   },
   {
     path: '/about',

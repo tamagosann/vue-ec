@@ -9,6 +9,17 @@
   </div>
 </template>
 
+<script>
+import {  } from '';
+
+export default {
+    name: 'App',
+  components: {
+  },
+}
+</script>
+
+
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

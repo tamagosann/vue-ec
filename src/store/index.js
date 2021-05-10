@@ -148,6 +148,18 @@ export default new Vuex.Store({
   mutations: {
   },
   actions: {
+    itemSearch() {
+      Vue.axios.get('https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
+      {
+        params: {
+          // applicationId: '1028235862602045754',
+          // keyword: keyWord,
+          // minPrice: minPrice,
+          // sort: '+itemPrice',
+        }
+      })
+    .then
+    }
   },
   modules: {
   }

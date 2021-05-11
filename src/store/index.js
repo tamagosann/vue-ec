@@ -8,27 +8,37 @@ export default new Vuex.Store({
   state: {
     loginUser: {
       userId: 'aaa',
-      cart: [
+      cart: [ //ここはcartというサブコレクション名でfirebaseに登録するよ
         {
           userId: 'aaa',
-          itemId: 1,
-          status: 0,
+          cartId: '11111', //cartIdはhistoriesにどうする時に消す。注文キャンセルされた場合は、再度cartIdを発行する。
+          item: {
+            userId: 'aaa',
+            id: 1,
+            name: 'Gorgeous4サンド',
+            description: '人気の定番具材「ハム」と「チキン」をセットにした食べごたえ抜群のサンドイッチです。',
+            price: 480,
+            path: '../assets/images/1.jpg',
+          },
         },
         {
           userId: 'aaa',
-          itemId: 2,
-          status: 0,
+          cartId: '22222',
+          item: {
+            userId: 'aaa',
+            id: 2,
+            name: 'エスプレッソフラペチーノ',
+            description: 'ひと口目に感じるエスプレッソは「リストレット」という方法で抽出した力強い香りと優しい苦味を、ふた口目は全体を混ぜて、こだわりのクリームから来るアフォガートのような味わいをお楽しみください。リフレッシュしたい時や、ほっとひと息つきたい時にも、何度でも飲みたくなるフラペチーノ®です。',
+            price: 600,
+            path: '../assets/images/2.png',
+          },
         },
-        {
-          userId: 'aaa',
-          itemId: 3,
-          status: 0,
-        },
+
       ],
-      order: [
+      histories: [ //ここはhistoryというサブコレクション名でfirebaseに登録するよ
         {
           userId: 'aaa',
-          itemId: 4,
+          historyId: '123456',
           status: 2,
           orderDate: '4月3日',
           destinationName: '田中さん',
@@ -36,7 +46,15 @@ export default new Vuex.Store({
           destinationAddress: '東京都',
           destinationTel: '03-3333-3333',
           destinationTime: '4月10日',
-          creditcardNo: '1234-5678-9000' 
+          creditcardNo: '1234-5678-9000',
+          item: {
+            userId: 'aaa',
+            id: 3,
+            name: 'チョコクッキー',
+            description: 'ソフトな食感のクッキー生地には、小麦の香ばしさが感じられるよう全粒粉を入れ、砂糖の一部にはブラウンシュガーを使い、コクのある甘さをプラスしています。風味豊かなスターバックスオリジナルのチョコレートチャンクがごろごろ入っていて、どこを食べてもチョコレートの味わいを存分に楽しめます。ショートサイズのマグカップの上に乗せられるくらいのサイズは、コーヒーと一緒に楽しむのにもぴったりです。',
+            price: 480,
+            path: '../assets/images/3.png',
+          }
         },
       ],
     },
@@ -46,18 +64,27 @@ export default new Vuex.Store({
         cart: [
           {
             userId: 'aaa',
-            itemId: 1,
-            status: 0,
+            id: 1,
+            name: 'Gorgeous4サンド',
+            description: '人気の定番具材「ハム」と「チキン」をセットにした食べごたえ抜群のサンドイッチです。',
+            price: 480,
+            path: '../assets/images/1.png',
           },
           {
             userId: 'aaa',
-            itemId: 2,
-            status: 0,
+            id: 2,
+            name: 'Gorgeous4サンド',
+            description: '人気の定番具材「ハム」と「チキン」をセットにした食べごたえ抜群のサンドイッチです。',
+            price: 480,
+            path: '../assets/images/1.png',
           },
           {
             userId: 'aaa',
-            itemId: 3,
-            status: 0,
+            id: 3,
+            name: 'Gorgeous4サンド',
+            description: '人気の定番具材「ハム」と「チキン」をセットにした食べごたえ抜群のサンドイッチです。',
+            price: 480,
+            path: '../assets/images/1.png',
           },
         ],
         histories: [
@@ -72,7 +99,7 @@ export default new Vuex.Store({
             destinationAddress: '東京都',
             destinationTel: '03-3333-3333',
             destinationTime: '4月10日',
-            creditcardNo: '1234-5678-9000' 
+            creditcardNo: '1234-5678-9000',
           },
         ],
       },
@@ -146,7 +173,9 @@ export default new Vuex.Store({
   getters: {
     items: state => state.items,
     loginUser: state => state.loginUser,
-    uid: state => state.loginUser.userId
+    uid: state => state.loginUser.userId,
+    cart: state => state.loginUser.cart ? state.loginUser.cart : null,
+    histories: state => state.loginUser.histories ? state.loginUser.histories : null,
   },
   mutations: {
     itemSearch(state, items) {

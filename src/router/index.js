@@ -7,6 +7,7 @@ import OrderConfirm from '../views/OrderConfirm';
 import ItemDetail from '../views/ItemDetail';
 import CartList from '../views/CartList';
 import Login from '../views/Login';
+import History from '../views/History'
 
 
 
@@ -50,8 +51,8 @@ const routes = [
   },
   {
     path: '/history/:uid?',
-    name: 'Login',
-    component: Login,
+    name: 'History',
+    component: History,
   },
   {
     path: '/about',

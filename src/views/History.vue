@@ -36,19 +36,16 @@
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<h3 class="text-center">注文内容確認</h3>
+				<h3 class="text-center">注文履歴</h3>
 
-			<!-- 商品名 / 価格ヘッダー -->
-				<table class="table table-striped item-list-table" >
+			
+				<table class="table table-striped item-list-table">
 					<tbody>
 						<tr>
 							<th v-for="header in tableHeaders" :key="header.title" width="200px">
 								<span class="text-center">
 									{{header.title}}
 								</span>
-							</th>
-							<th>
-
 							</th>
 						</tr>
 
@@ -60,17 +57,15 @@
 										<br>
 								</div>
 							</td>
-							<td style="text-align: center">
+							<td width="100px">
 								<div>
 									{{item.name}}
 								</div>
 								<div class="price">
-									<!-- {{item.price}}円	 -->
-									1000円	
+									{{item.price}}円
+                                    <!-- キャンセルボタンを押したら区分値を変えるメソッドが欲しい（cancel()） -->
+                                    <button>キャンセル</button>	
 								</div>
-							</td>
-							<td style="width:150px;">
-								<button>削除</button>
 							</td>
 						</tr>
 						
@@ -356,16 +351,13 @@ export default({
 	},
 	computed: {
 		...mapGetters(['loginUser']),
+		// ...mapState[('login_user')]
 	},
 
 	methods: {
 		submit(){
-			const now = new Date()
-			this.info.now = now
-
 			this.addUserInfo(this.info)
 			console.log(this.$store.state.userInfo)
-			
 		},
 		...mapActions(['addUserInfo']),
 	}

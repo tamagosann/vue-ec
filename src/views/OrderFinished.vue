@@ -49,10 +49,12 @@
 		<div class="row">
 			<div class="col-xs-offset-5 col-xs-2">
 				<div class="form-group">
-					<form action="order_finished.html">
-						<input class="form-control btn btn-warning btn-block"
-							type="submit" value="トップ画面を表示する">
-					</form>
+					<router-link :to="{name: 'ItemList'}">
+						<form action="order_finished.html">
+							<input class="form-control btn btn-warning btn-block"
+								type="submit" value="トップ画面を表示する">
+						</form>
+					</router-link>
 				</div>
 			</div>
 		</div>

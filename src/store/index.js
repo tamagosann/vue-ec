@@ -1,5 +1,6 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex from 'vuex';
+import firebase from 'firebase'
 
 Vue.use(Vuex)
 
@@ -144,21 +145,76 @@ export default new Vuex.Store({
   getters: {
     items: state => state.items,
     loginUser: state => state.loginUser,
+    uid: state => state.loginUser.userId
   },
   mutations: {
+    itemSearch(state, items) {
+      state.items = items;
+      console.log(state.items)
+    },
+    setLoginUser(state, user) {
+      state.loginUser = user;
+    },
+    deleteLoginUser(state) {
+      state.loginUser = null;
+    },
   },
   actions: {
-    itemSearch() {
+    itemSearch(state, keyword) {
+      const keyWord = keyword;
       Vue.axios.get('https://app.rakuten.co.jp/services/api/IchibaItem/Search/20170706',
       {
         params: {
-          // applicationId: '1028235862602045754',
-          // keyword: keyWord,
-          // minPrice: minPrice,
-          // sort: '+itemPrice',
+          applicationId: '1032207771907305208',
+          keyword: keyWord,
+          minPrice: 1000,
+          sort: '+reviewCount',
+          hits: 20,
         }
       })
-    .then
+    .then(res => {
+      console.log(res)
+      const items = [];
+      res.data.Items.forEach(itemEach => {
+        const item = {
+          id: itemEach.Item.itemCode,
+          name: itemEach.Item.itemName,
+          description: itemEach.Item.catchcopy,
+          price: itemEach.Item.itemPrice,
+          path: itemEach.Item.mediumImageUrls[0].imageUrl,
+        }
+        items.push(item);
+      })
+      console.log(items);
+      state.commit('itemSearch', items)
+    })
+    },
+    setLoginUser(state, user) {
+      state.commit('setLoginUser', user)
+    },
+    login() {
+      const google_auth_provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithRedirect(google_auth_provider);
+    },
+    logout() {
+      firebase.auth().signOut();
+    },
+    deleteLoginUser(state) {
+      state.commit('deleteLoginUser');
+    },
+    fetchUserInfo(state) {
+      const user = {
+        cart: [],
+        history: [],
+      };
+      firebase.firestore().collection(`users/${state.getters.uid}/cart`).get().then(snapshot => {
+        snapshot.forEach(doc => user.cart.push({id: doc.id, cart: doc.data()}))
+      });
+      firebase.firestore().collection(`users/${state.getters.uid}/history`).get().then(snapshot => {
+        snapshot.forEach(doc => user.history.push({id: doc.id, cart: doc.data()}))
+      });
+
+      state.commit('setUserInfo', user)
     }
   },
   modules: {

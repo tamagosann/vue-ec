@@ -11,9 +11,12 @@ export default {
   created() {
     firebase.auth().onAuthStateChanged(user => {
       if(user) {
-        this.setLoginUser(user);
+        const uid = user.uid;
+        console.log(uid)
+        this.setUserId(uid)
+
         if(this.$router.currentRoute.name === "Login") {
-          this.$router.push({name: "ItemList"}, () => {});
+          // this.$router.push({name: "ItemList"}, () => {});
         }
       } else {
         this.deleteLoginUser();
@@ -22,7 +25,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['setLoginUser', 'logout', 'deleteLoginUser'])
+    ...mapActions(['setUserId', 'logout', 'deleteLoginUser'])
   }
 }
 </script>

@@ -50,7 +50,7 @@
 									placeholder="Password">
 							</div>
 							<div class="form-group">
-								<button type="submit" class="btn btn-primary">ログイン</button>
+								<button type="submit" class="btn btn-primary" @click.prevent="login">ログイン</button>
 							</div>
 						</fieldset>
 					</form>
@@ -68,7 +68,12 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
 export default ({
-	name: 'Login'
+	name: 'Login',
+	methods: {
+		...mapActions(['login'])
+	}
 })
 </script>

@@ -60,11 +60,12 @@ export default new Vuex.Store({
             status: 0,
           },
         ],
-        order: [
+        histories: [
           {
             userId: 'aaa',
             itemId: 4,
             status: 2,
+            payment: 0,
             orderDate: '4月3日',
             destinationName: '田中さん',
             destinationZipcode: '333-3333',
@@ -152,12 +153,20 @@ export default new Vuex.Store({
       state.items = items;
       console.log(state.items)
     },
-    setLoginUser(state, user) {
-      state.loginUser = user;
+    setUserId(state, uid) {
+      state.loginUser.userId = uid;
     },
     deleteLoginUser(state) {
       state.loginUser = null;
     },
+    addUserInfo(state, info){
+      const history = {
+        
+        ...info,
+      }
+      console.log(history)
+
+		},
   },
   actions: {
     itemSearch(state, keyword) {
@@ -189,8 +198,8 @@ export default new Vuex.Store({
       state.commit('itemSearch', items)
     })
     },
-    setLoginUser(state, user) {
-      state.commit('setLoginUser', user)
+    setUserId(state, uid) {
+      state.commit('setUserId', uid)
     },
     login() {
       const google_auth_provider = new firebase.auth.GoogleAuthProvider();
@@ -215,7 +224,10 @@ export default new Vuex.Store({
       });
 
       state.commit('setUserInfo', user)
-    }
+    },
+    addUserInfo({commit}, info){
+			commit('addUserInfo', info)
+		},
   },
   modules: {
   }

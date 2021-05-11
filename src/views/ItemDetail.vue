@@ -38,9 +38,10 @@
 
 					<div class="col-xs-5">
 						<div class="bs-component">
-							<h4>じゃがバターベーコン</h4> <br>
+							<h4>{{$route.params.itemId}} </h4>
 							<br>
-							<p>マイルドな味付けのカレーに大きくカットしたポテトをのせた、バターとチーズの風味が食欲をそそるお子様でも楽しめる商品です。</p>
+							<br>
+							<p></p>
 						</div>
 					</div>
 				</div><br>
@@ -49,63 +50,17 @@
 						<div class="form-group">
 							<div class="row">
 								<div class="col-sm-12">
-									<label for="inputResponsibleCompany">サイズ</label>
+									<label for="inputResponsibleCompany">価格</label>
 								</div>
 								<div class="col-sm-12">
 									<label class="radio-inline">
-										<input type="radio" name="responsibleCompany" checked="checked">
-										<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)
-									</label>
-									<label class="radio-inline">
-										<input type="radio" name="responsibleCompany">
-										<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)
+										<span class="price">&nbsp;&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)
 									</label>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div><br>
-				<div class="row">
-					<div class="col-xs-offset-2 col-xs-8">
-						<div class="form-group">
-							<div class="row">
-								<div class="col-sm-12">
-									<label for="inputResponsibleCompany">
-										トッピング：&nbsp;1つにつき
-										<span>&nbsp;М&nbsp;</span>&nbsp;&nbsp;200円(税抜)
-										<span>&nbsp;Ｌ</span>&nbsp;&nbsp;300円(税抜)
-									</label>
-								</div>
-								<div class="col-sm-12">
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">オニオン
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">チーズ
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">ピーマン
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">ロースハム
-									</label><br>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">ほうれん草
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">ぺパロに
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">グリルナス
-									</label>
-									<label class="checkbox-inline">
-										<input type="checkbox" value="">あらびきソーセージ
-									</label>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
 				<div class="row">
 					<div class="col-xs-offset-2 col-xs-8">
 						<div class="form-group">
@@ -135,7 +90,7 @@
 				<div class="row">
 					<div class="col-xs-offset-2 col-xs-10">
 						<div class="form-group">
-							<span id="total-price">この商品金額：38,000 円(税抜)</span>
+							<span id="total-price">この商品金額：円(税抜)</span>
 						</div>
 					</div>
 				</div>
@@ -165,5 +120,8 @@
 
 export default {
   name:'itemDetail',
+	computed:{
+
+	},
 }
 </script>

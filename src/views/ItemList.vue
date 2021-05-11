@@ -14,10 +14,10 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
-						<a href="" class="navbar-link" @click="cartList">ショッピングカート</a>&nbsp;&nbsp;
-						<a href="" class="navbar-link" @click="orderhistory">注文履歴</a>&nbsp;&nbsp;
-						<a href="" class="navbar-link" @click="login">ログイン</a>&nbsp;&nbsp;
-						<a href="" class="navbar-link" @click="logout">ログアウト</a>
+						<a href="" class="navbar-link" >ショッピングカート</a>&nbsp;&nbsp;
+						<a href="" class="navbar-link" >注文履歴</a>&nbsp;&nbsp;
+						<a href="" class="navbar-link" >ログイン</a>&nbsp;&nbsp;
+						<a href="" class="navbar-link" >ログアウト</a>
 					</p>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -37,11 +37,12 @@
 							<div class="form-group">
 								<label for="code" class="control-label col-sm-2">商品名</label>
 								<div class="col-sm-9">
-									<input type="text" name="code" id="code" class="form-control input-sm">
+									<input type="text" name="code" id="code" class="form-control input-sm" v-model="keyword">
+									<p v-show="show">※キーワードを入力してください</p>
 								</div>
 							</div>
 							<div class="text-center">
-								<button type="submit" value="検索" class="btn btn-primary" @click="searchWord">検索</button>
+								<button type="submit" value="検索" class="btn btn-primary" @click.prevent="submit">検索</button>
 								<button type="reset" value="クリア" class="btn btn-default" @click="clear">クリア</button>
 							</div>
 						</form>
@@ -55,14 +56,18 @@
 			<div class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 				<table class="table table-striped item-list-table" >
 					<tbody>
-						<tr v-for="item in items" :key="item.name">
+						<tr v-for="item in items" :key="item.id">
 							<th>
-								<a href="">
-									<img src="" class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<a href="">{{item.name}}</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;{{item.price}}<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;{{item.price}}<br>
+								<div style="display:block;width:200px;height:200px;overflow:hiden;margin:0 auto;" >
+									<router-link :to="{name: 'ItemDetail', params:{itemId:item.id}}">
+									<img :src="item.path" class="img-responsive img-rounded item-img-center" style="objectfit:cover;width:100%;height:100%;">
+									</router-link>
+								</div><br>
+								<router-link to = "{name:'ItemDetail', params:{itemId}}">
+								<a>{{item.name}}</a>
+								</router-link>
+								<br>
+								<span class="price">価格</span>&nbsp;&nbsp;{{item.price}}<br>
 							</th>
 						</tr>
 					</tbody>
@@ -79,17 +84,36 @@
 
 <script>
 import { mapGetters } from "vuex"
+import { mapActions } from "vuex"
+
 
 export default {
   name:'itemList',
 	data(){
     return {
-
+			keyword: '',
+			show:false,
     }
   },
 	computed:{
 		...mapGetters(["items"]),
-	}
+	},
+	methods:{
+		// 検索ボタン
+		submit(){
+			this.itemSearch(this.keyword);
+			if(this.keyword==""){
+				this.show = true
+			}else{
+				this.show = false
+			}
+		},
+		// クリアボタン
+		clear(){
+			this.keyword = ""
+		},
+		...mapActions(["itemSearch"]),
+	},
 }
 
 </script>

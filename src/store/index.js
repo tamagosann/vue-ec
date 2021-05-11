@@ -14,6 +14,7 @@ export default new Vuex.Store({
           cartItemId: '11111', //cartIdはhistoriesにどうする時に消す。注文キャンセルされた場合は、再度cartIdを発行する。
           item: {
             userId: 'aaa',
+            quantity: 2,
             id: 1,
             name: 'Gorgeous4サンド',
             description: '人気の定番具材「ハム」と「チキン」をセットにした食べごたえ抜群のサンドイッチです。',
@@ -26,6 +27,7 @@ export default new Vuex.Store({
           cartItemId: '22222',
           item: {
             userId: 'aaa',
+            quantity: 3,
             id: 2,
             name: 'エスプレッソフラペチーノ',
             description: 'ひと口目に感じるエスプレッソは「リストレット」という方法で抽出した力強い香りと優しい苦味を、ふた口目は全体を混ぜて、こだわりのクリームから来るアフォガートのような味わいをお楽しみください。リフレッシュしたい時や、ほっとひと息つきたい時にも、何度でも飲みたくなるフラペチーノ®です。',
@@ -46,9 +48,11 @@ export default new Vuex.Store({
           destinationAddress: '東京都',
           destinationTel: '03-3333-3333',
           destinationTime: '4月10日',
+          destinationTimeHours: '13~16時',
           creditcardNo: '1234-5678-9000',
           item: {
             userId: 'aaa',
+            quantity: 1,
             id: 3,
             name: 'チョコクッキー',
             description: 'ソフトな食感のクッキー生地には、小麦の香ばしさが感じられるよう全粒粉を入れ、砂糖の一部にはブラウンシュガーを使い、コクのある甘さをプラスしています。風味豊かなスターバックスオリジナルのチョコレートチャンクがごろごろ入っていて、どこを食べてもチョコレートの味わいを存分に楽しめます。ショートサイズのマグカップの上に乗せられるくらいのサイズは、コーヒーと一緒に楽しむのにもぴったりです。',
@@ -257,6 +261,7 @@ export default new Vuex.Store({
     addUserInfo({commit}, info){
 			commit('addUserInfo', info)
 		},
+
   },
   modules: {
   }

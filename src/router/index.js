@@ -34,7 +34,7 @@ const routes = [
     component: OrderConfirm,
   },
   {
-    path: '/item/detail/:itemId',
+    path: '/item/detail/:itemId?',
     name: 'ItemDetail',
     component: ItemDetail,
   },

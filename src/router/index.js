@@ -24,12 +24,12 @@ const routes = [
     component: RegisterUser,
   },
   {
-    path: '/order/finished',
+    path: '/order/finished/:uid?',
     name: 'OrderFinished',
     component: OrderFinished,
   },
   {
-    path: '/order/confirm',
+    path: '/order/confirm/:uid?',
     name: 'OrderConfirm',
     component: OrderConfirm,
   },
@@ -39,12 +39,17 @@ const routes = [
     component: ItemDetail,
   },
   {
-    path: '/cartList',
+    path: '/cart/:uid?',
     name: 'CartList',
     component: CartList,
   },
   {
     path: '/login',
+    name: 'Login',
+    component: Login,
+  },
+  {
+    path: '/history/:uid?',
     name: 'Login',
     component: Login,
   },

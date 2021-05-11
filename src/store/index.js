@@ -11,7 +11,7 @@ export default new Vuex.Store({
       cart: [ //ここはcartというサブコレクション名でfirebaseに登録するよ
         {
           userId: 'aaa',
-          cartId: '11111', //cartIdはhistoriesにどうする時に消す。注文キャンセルされた場合は、再度cartIdを発行する。
+          cartItemId: '11111', //cartIdはhistoriesにどうする時に消す。注文キャンセルされた場合は、再度cartIdを発行する。
           item: {
             userId: 'aaa',
             id: 1,
@@ -23,7 +23,7 @@ export default new Vuex.Store({
         },
         {
           userId: 'aaa',
-          cartId: '22222',
+          cartItemId: '22222',
           item: {
             userId: 'aaa',
             id: 2,
@@ -38,8 +38,8 @@ export default new Vuex.Store({
       histories: [ //ここはhistoryというサブコレクション名でfirebaseに登録するよ
         {
           userId: 'aaa',
-          historyId: '123456',
-          status: 2,
+          historyItemId: '123456',
+          status: 0,
           orderDate: '4月3日',
           destinationName: '田中さん',
           destinationZipcode: '333-3333',

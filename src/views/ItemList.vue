@@ -14,10 +14,10 @@
 				<!-- Collect the nav links, forms, and other content for toggling -->
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<p class="navbar-text navbar-right">
-						<a href="" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
-						<a href="" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
-						<a href="" class="navbar-link">ログイン</a>&nbsp;&nbsp;
-						<a href="" class="navbar-link">ログアウト</a>
+						<a href="" class="navbar-link" @click="cartList">ショッピングカート</a>&nbsp;&nbsp;
+						<a href="" class="navbar-link" @click="orderhistory">注文履歴</a>&nbsp;&nbsp;
+						<a href="" class="navbar-link" @click="login">ログイン</a>&nbsp;&nbsp;
+						<a href="" class="navbar-link" @click="logout">ログアウト</a>
 					</p>
 				</div>
 				<!-- /.navbar-collapse -->
@@ -41,8 +41,8 @@
 								</div>
 							</div>
 							<div class="text-center">
-								<button type="submit" value="検索" class="btn btn-primary">検索</button>
-								<button type="reset" value="クリア" class="btn btn-default">クリア</button>
+								<button type="submit" value="検索" class="btn btn-primary" @click="searchWord">検索</button>
+								<button type="reset" value="クリア" class="btn btn-default" @click="clear">クリア</button>
 							</div>
 						</form>
 					</div>
@@ -53,87 +53,16 @@
 		<!-- table -->
 		<div class="row">
 			<div class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<table class="table table-striped item-list-table">
+				<table class="table table-striped item-list-table" >
 					<tbody>
-						<tr>
-
+						<tr v-for="item in items" :key="item.name">
 							<th>
 								<a href="">
 									<img src="" class="img-responsive img-rounded item-img-center" width="200" height="600">
 								</a><br>
-								<a href="">じゃがバターベーコン</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)<br>
-							</th>
-							<th>
-								<a href="">
-									<img src="" class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<a href="">じゃがバターベーコン</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)<br>
-							</th>
-							<th>
-								<a href="">
-									<img src="" class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<a href="">じゃがバターベーコン</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)<br>
-							</th>
-						</tr>
-						<tr>
-
-							<th>
-								<a href="">
-									<img src="" class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<a href="">じゃがバターベーコン</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)<br>
-							</th>
-							<th>
-								<a href="">
-									<img src="" class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<a href="">じゃがバターベーコン</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)<br>
-							</th>
-							<th>
-								<a href="">
-									<img src="" class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<a href="">じゃがバターベーコン</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)<br>
-							</th>
-						</tr>
-						<tr>
-
-							<th>
-								<a href="">
-									<img src="" class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<a href="">じゃがバターベーコン</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)<br>
-							</th>
-							<th>
-								<a href="">
-									<img src="" class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<a href="">じゃがバターベーコン</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)<br>
-							</th>
-							<th>
-								<a href="">
-									<img src="" class="img-responsive img-rounded item-img-center" width="200" height="600">
-								</a><br>
-								<a href="">じゃがバターベーコン</a><br>
-								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;1,380円(税抜)<br>
-								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;2,380円(税抜)<br>
+								<a href="">{{item.name}}</a><br>
+								<span class="price">&nbsp;М&nbsp;</span>&nbsp;&nbsp;{{item.price}}<br>
+								<span class="price">&nbsp;Ｌ</span>&nbsp;&nbsp;{{item.price}}<br>
 							</th>
 						</tr>
 					</tbody>
@@ -149,9 +78,18 @@
 </template>
 
 <script>
-// import {} from '';
+import { mapGetters } from "vuex"
 
 export default {
   name:'itemList',
+	data(){
+    return {
+
+    }
+  },
+	computed:{
+		...mapGetters(["items"]),
+	}
 }
+
 </script>

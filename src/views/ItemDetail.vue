@@ -164,6 +164,6 @@
 // import {} from '';
 
 export default {
-  name:'itemDetail',     
+  name:'itemDetail',
 }
 </script>

@@ -104,8 +104,6 @@ export default {
 				quantity: this.quantity,
 				...this.currentItem,
 			};
-			console.log('ここまで')
-
 			this.addToCartAction(itemToCart);
 		} else {
 			const itemToCartNotUser = {
@@ -113,12 +111,8 @@ export default {
 				quantity: this.quantity,
 				...this.currentItem,
 			}
-			console.log('ここまで')
 			this.addToCartAction(itemToCartNotUser);
-			console.log('ここまで')
-
 		}
-
 		this.$router.push({name: 'ItemList'});
 
 	},

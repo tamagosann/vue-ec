@@ -22,29 +22,25 @@
 							</th>
 						</tr>
 
-						<tr v-for="cartItem in cartItems" :key="cartItem.item.id">
+						<tr v-for="cartItem in cart" :key="cartItem.id">
 							<td>
 								<div class="center">
-									<img src="../assets/images/1.jpg"
+									<img :src="cartItem.path"
 										class="img-responsive img-rounded item-img-center" width="150" height="150">
 										<br>
 								</div>
 							</td>
 							<td style="text-align: center">
 								<div>
-									<div>
-										{{cartItem.item.name}}
-									</div>
-									<div class="price">
-										{{cartItem.item.price}}円	
-									</div>
-									<div class="price">
-										{{cartItem.item.quantity}}個	
-									</div>
-									<br>
-									<div>
-										<button>削除</button>
-									</div>
+									{{cartItem.name}}
+								</div>
+								<br>
+								<div class="price">
+									{{cartItem.price}}円 × {{cartItem.quantity}}個
+								</div>
+								<br>
+								<div>
+									<button>削除</button>
 								</div>
 							</td>
 						</tr>
@@ -324,7 +320,7 @@ export default({
 		return {
 			tableHeaders: [
 				{title: "商品名"},
-				{title: "価格（税込）"},
+				{title: "価格（税拔）"},
 				{title: "操作"},
 			],
 			paymentMethods: [
@@ -370,21 +366,23 @@ export default({
 		total(){
 			const length = this.cart.length
 			for(let i = 0; i < length; i++){
-				this.prices.push(this.cart[i].item.price * this.cart[i].item.quantity)
+				this.prices.push(this.cart[i].price * this.cart[i].quantity)
 			}
+
+			if (length > 0) {
 				let sum = this.prices.reduce((a, b) => a + b)
-				console.log(sum)
 				this.priceWithoutTax = sum
 				this.priceWithTax = Math.floor(sum * 1.1)
+			}
 		},
 		
 		calcTax(){
 			const length = this.cart.length
 			for(let i = 0; i < length; i++){
-				this.prices.push(this.cart[i].item.price * this.cart[i].item.quantity)
+				this.prices.push(this.cart[i].price * this.cart[i].quantity)
 			}
-				this.tax = Math.floor(this.priceWithoutTax * 0.1)
-			},
+			this.tax = Math.floor(this.priceWithoutTax * 0.1)
+		},
 
 		...mapActions(['addUserInfo']),
 	}
@@ -399,6 +397,10 @@ export default({
 	}
 	.red{
 		color: red;
+	}
+	.bold {
+		font-size: 30px;
+		font-weight: bold;
 	}
 
 </style>

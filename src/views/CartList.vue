@@ -18,40 +18,46 @@
 							</th>
 						</tr>
 
-						<tr v-for="item in items" :key="item.id">
+						<tr v-for="cartItem in cart" :key="cartItem.id">
 							<td>
 								<div class="center">
-									<img src="../assets/images/1.jpg"
+									<img :src="cartItem.path"
 										class="img-responsive img-rounded item-img-center" width="150" height="150">
 										<br>
 								</div>
 							</td>
 							<td style="text-align: center">
 								<div>
-									{{item.item.name}}
+									{{cartItem.name}}
 								</div>
+								<br>
 								<div class="price">
-									{{item.item.price}}円	
+									{{cartItem.price}}円 × {{cartItem.quantity}}個
+								</div>
+								<br>
+								<div>
+									<button>削除</button>
 								</div>
 							</td>
 						</tr>
 						
 					</tbody>
 				</table>
-
 			</div>
 		</div>
 
-        <div class="row">
+		<!-- 合計金額 -->
+		<div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
 				<div class="form-group text-center">
-					<!-- <div id="total-price">合計金額：{{totalPrice()}}円（税込）</div><br> -->
-					<!-- <button @click="calc()">計算</button> -->
-					<div id="total-price">合計金額：{{totalPrice}}円（税込）</div><br>
+					<div>消費税：{{tax}}円</div>
+					<div id="total-price">合計金額：{{priceWithTax}}円（税込）</div>
+					<br>
 				</div>
 			</div>
 		</div>
 
+		<!-- 注文に進むボタン -->
 		<div class="row">
 			<div class="col-xs-offset-4 col-xs-4">
 				<div class="form-group" style="text-align: center">
@@ -62,28 +68,26 @@
 			</div>
 		</div>
 
-		<!-- 表示はできる -->
-		<div>{{loginUser.cart}}</div>
-
     </div>
     
 </template>
 
 <script>
 
-// import {mapGetters} from 'vuex'
-import {mapActions} from 'vuex'
+import {mapGetters} from 'vuex'
+// import {mapActions} from 'vuex'
 
 export default({
     name: 'CartList',
 	created(){
-		
+		this.total()
+		this.calcTax()
 	},
 	data(){
 		return {
 			tableHeaders: [
 				{title: "商品"},
-				{title: "商品名 / 価格（税込）"},
+				{title: "商品名 / 価格（税抜）"},
 			],
 			
 			paymentMethods: [
@@ -91,26 +95,40 @@ export default({
 				{title: "クレジットカード", status: 2},
 			],
 
-			prices: [],
-			totalPrice: ''
+			prices: [],			
+			priceWithTax: '',
+			priceWithoutTax: '',
+			tax: '',
 		}
 	},
 	computed: {
-		items(){
-			return this.$store.state.loginUser.cart
-		},
-		loginUser(){
-			return this.$store.state.loginUser
-		}
-		// ...mapGetters(['loginUser'])
+		...mapGetters(['cart'])
 	},
 
 	methods: {
 		submit(){
-			this.addUserInfo(this.info)
-			console.log(this.$store.state.userInfo)
+			this.$router.push({name: 'OrderConfirm'})
 		},
-		...mapActions(['addUserInfo']),
+		total(){
+			const length = this.cart.length
+			for(let i = 0; i < length; i++){
+				this.prices.push(this.cart[i].price * this.cart[i].quantity)
+			}
+
+			if (length > 0) {
+				let sum = this.prices.reduce((a, b) => a + b)
+				this.priceWithoutTax = sum
+				this.priceWithTax = Math.floor(sum * 1.1)
+			}
+		},
+		
+		calcTax(){
+			const length = this.cart.length
+			for(let i = 0; i < length; i++){
+				this.prices.push(this.cart[i].price * this.cart[i].quantity)
+			}
+			this.tax = Math.floor(this.priceWithoutTax * 0.1)
+		},
 	}
 
 })

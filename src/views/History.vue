@@ -22,10 +22,10 @@
 							</th>
 						</tr>
 
-						<tr v-for="history in histories" :key="history.item.id">
+						<tr v-for="history in histories" :key="history.id">
 							<td>
 								<div class="center">
-									<img src="../assets/images/1.jpg"
+									<img :src="history.path"
 										class="img-responsive img-rounded item-img-center" width="150" height="150">
 										<br>
 								</div>
@@ -33,13 +33,13 @@
 							<td style="text-align: center">
 								<div>
 									<div>
-										{{history.item.name}}
+										{{history.name}}
 									</div>
 									<div class="price">
-										{{history.item.price}}円	
+										{{history.price}}円	
 									</div>
 									<div class="price">
-										{{history.item.quantity}}個	
+										{{history.quantity}}個	
 									</div>
 									<br>
 									<div>
@@ -99,18 +99,20 @@ export default({
 		total(){
 			const length = this.histories.length
 			for(let i = 0; i < length; i++){
-				this.prices.push(this.histories[i].item.price * this.histories[i].item.quantity)
+				this.prices.push(this.histories[i].price * this.histories[i].quantity)
 			}
+			if(length > 0){
 				let sum = this.prices.reduce((a, b) => a + b)
-				console.log(sum)
+				// console.log(sum)
 				this.priceWithoutTax = sum
 				this.priceWithTax = Math.floor(sum * 1.1)
+			}
 		},
 		
 		calcTax(){
 			const length = this.histories.length
 			for(let i = 0; i < length; i++){
-				this.prices.push(this.histories[i].item.price * this.histories[i].item.quantity)
+				this.prices.push(this.histories[i].price * this.histories[i].quantity)
 			}
 				this.tax = Math.floor(this.priceWithoutTax * 0.1)
 			},

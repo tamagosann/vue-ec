@@ -1,37 +1,5 @@
 <template>
     <div class="container">
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed"
-                        data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                        aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span> <span
-                            class="icon-bar"></span> <span class="icon-bar"></span> <span
-                            class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand"> <!-- 企業ロゴ --> <img
-                        alt="main log" src="" height="35">
-                    </a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-
-				<!-- リンク -->
-                <div class="collapse navbar-collapse"
-                    id="bs-example-navbar-collapse-1">
-                    <p class="navbar-text navbar-right">
-                        <a href="" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
-                        <a href="" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
-                        <a href="" class="navbar-link">ログイン</a>&nbsp;&nbsp;
-                        <a href="" class="navbar-link">ログアウト</a>
-                    </p>
-                </div>
-                <!-- /.navbar-collapse -->
-            </div>
-        </nav>
-
         <!-- table -->
 		<div class="row">
 			<div
@@ -39,20 +7,22 @@
 				<h3 class="text-center">注文内容確認</h3>
 
 			<!-- 商品名 / 価格ヘッダー -->
-				<table class="table table-striped item-list-table" >
+				<table class="table table-striped item-list-table" style="width: 600px">
 					<tbody>
 						<tr>
-							<th v-for="header in tableHeaders" :key="header.title" width="200px">
+							<th width="150px">
 								<span class="text-center">
-									{{header.title}}
+									商品
 								</span>
 							</th>
-							<th>
-
+							<th width="150px">
+								<span class="text-center">
+									商品名 / 価格
+								</span>
 							</th>
 						</tr>
 
-						<tr v-for="item in items" :key="item.id">
+						<tr v-for="cartItem in cartItems" :key="cartItem.item.id">
 							<td>
 								<div class="center">
 									<img src="../assets/images/1.jpg"
@@ -62,15 +32,20 @@
 							</td>
 							<td style="text-align: center">
 								<div>
-									{{item.name}}
+									<div>
+										{{cartItem.item.name}}
+									</div>
+									<div class="price">
+										{{cartItem.item.price}}円	
+									</div>
+									<div class="price">
+										{{cartItem.item.quantity}}個	
+									</div>
+									<br>
+									<div>
+										<button>削除</button>
+									</div>
 								</div>
-								<div class="price">
-									<!-- {{item.price}}円	 -->
-									1000円	
-								</div>
-							</td>
-							<td style="width:150px;">
-								<button>削除</button>
 							</td>
 						</tr>
 						
@@ -83,9 +58,9 @@
         <div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
 				<div class="form-group text-center">
-					<!-- <div id="total-price">合計金額：{{totalPrice()}}円（税込）</div><br> -->
-					<!-- <button @click="calc()">計算</button> -->
-					<div id="total-price">合計金額：{{totalPrice}}円（税込）</div><br>
+					<div>消費税：{{tax}}円</div>
+					<div id="total-price">合計金額：{{priceWithTax}}円（税込）</div>
+					<br>
 				</div>
 			</div>
 		</div>
@@ -96,6 +71,7 @@
 				<div
 					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 					<h3 class="text-center">お届け先情報</h3>
+
 					<table class="table table-striped item-list-table">
 						<tbody>
 							<tr>
@@ -116,6 +92,16 @@
 								</td>
 								<td>
 									<input type="email" v-model="info.email">
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="text-center">
+										電話番号
+									</div>
+								</td>
+								<td>
+									<input type="email" v-model.number="info.destinationTel">
 								</td>
 							</tr>
 							<tr>
@@ -156,7 +142,7 @@
 											<!-- カレンダー -->
 											<div class="col-sm-5">
 												<input type="date" name="name" id="name"
-													class="form-control input-sm" v-model="info.orderDate"/>
+													class="form-control input-sm" v-model="info.destinationTime"/>
 											</div>
 
 										</div>
@@ -167,7 +153,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="10" v-model.number="info.time">10時
+																name="responsibleCompany" checked="checked" value="10" v-model.number="info.destinationTime">10時
 														</label>
 														<br>
 													</div>
@@ -176,7 +162,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="11" v-model.number="info.time">11時
+																name="responsibleCompany" checked="checked" value="11" v-model.number="info.destinationTime">11時
 														</label>
 														<br>
 													</div>
@@ -185,7 +171,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="12" v-model.number="info.time">12時
+																name="responsibleCompany" checked="checked" value="12" v-model.number="info.destinationTime">12時
 														</label>
 														<br>
 													</div>
@@ -198,7 +184,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="13" v-model.number="info.time">13時
+																name="responsibleCompany" checked="checked" value="13" v-model.number="info.destinationTime">13時
 														</label>
 														<br>
 													</div>
@@ -207,7 +193,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="14" v-model.number="info.time">14時
+																name="responsibleCompany" checked="checked" value="14" v-model.number="info.destinationTime">14時
 														</label>
 														<br>
 													</div>
@@ -216,7 +202,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="15" v-model.number="info.time">15時
+																name="responsibleCompany" checked="checked" value="15" v-model.number="info.destinationTime">15時
 														</label>
 														<br>
 													</div>
@@ -228,7 +214,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="16" v-model.number="info.time">16時
+																name="responsibleCompany" checked="checked" value="16" v-model.number="info.destinationTime">16時
 														</label>
 														<br>
 													</div>
@@ -237,7 +223,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="17" v-model.number="info.time">17時
+																name="responsibleCompany" checked="checked" value="17" v-model.number="info.destinationTime">17時
 														</label>
 														<br>
 													</div>
@@ -246,7 +232,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="18" v-model.number="info.time">18時
+																name="responsibleCompany" checked="checked" value="18" v-model.number="info.destinationTime">18時
 														</label>
 														<br>
 													</div>
@@ -255,6 +241,16 @@
 
 
 									</div>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<div class="text-center">
+										クレジットカード番号
+									</div>
+								</td>
+								<td>
+									<input type="number" v-model="info.creditcardNo">
 								</td>
 							</tr>
 						</tbody>
@@ -272,7 +268,7 @@
 							<tr>
 								<td>
 									<div class="row">
-										<div class="col-sm-12">
+										<div class="col-sm-12" style="text-align: center">
 											<label class="radio-inline">
 												<input type="radio"
 													name="responsibleCompany" checked="checked" value='0' v-model.number="info.status">代金引換
@@ -282,7 +278,7 @@
 								</td>
 								<td>
 									<div class="row">
-										<div class="col-sm-12">
+										<div class="col-sm-12" style="text-align: center">
 											<label class="radio-inline">
 												<input type="radio"
 													name="responsibleCompany" checked="checked" value='1' v-model.number="info.status">クレジットカード
@@ -302,9 +298,7 @@
 				<div class="col-xs-offset-4 col-xs-4">
 					<div class="form-group">
 
-						<router-link :to="{name: 'OrderFinished'}">
-							<input class="form-control btn btn-warning btn-block" type="submit" value="この内容で注文する" @click="submit()">
-						</router-link>
+							<input class="form-control btn btn-warning btn-block" type="submit" value="この内容で注文する" @click.prevent="submit()">
 
 					</div>
 				</div>
@@ -323,18 +317,19 @@ import {mapActions} from 'vuex'
 export default({
     name: 'OrderConfirm',
 	created(){
-		this.info = this.loginUser
+		this.total()
+		this.calcTax()
 	},
 	data(){
 		return {
 			tableHeaders: [
 				{title: "商品名"},
 				{title: "価格（税込）"},
+				{title: "操作"},
 			],
-			
 			paymentMethods: [
-				{title: "代金引換", status: 1},
-				{title: "クレジットカード", status: 2},
+				{title: "代金引換"},
+				{title: "クレジットカード"},
 			],
 			info: {
 				orderDate: '',
@@ -345,28 +340,52 @@ export default({
 				destinationTime: '',
 				creditcardNo: '' 
 			},
-			
-			// 練習
-			items: [
-				{name: "りんご"}
-			],
 			prices: [],
-			totalPrice: ''
+			priceWithTax: '',
+			priceWithoutTax: '',
+			tax: '',
 		}
 	},
 	computed: {
-		...mapGetters(['loginUser']),
+		cartItems(){
+			console.log(this.loginUser) // null
+			return this.cart
+		},
+		...mapGetters(['loginUser', 'cart']),
+
 	},
 
 	methods: {
 		submit(){
 			const now = new Date()
-			this.info.now = now
-
-			this.addUserInfo(this.info)
-			console.log(this.$store.state.userInfo)
-			
+			this.info.orderDate = now
+			if(this.info.destinationName && this.info.destinationZipcode && this.info.destinationAddress && this.info.destinationTel && this.info.destinationTime && this.info.creditcardNo && this.info.orderDate) {
+				this.addUserInfo(this.info)
+				// console.log('called')
+				this.$router.push({name: 'OrderFinished'})
+				return true
+			} 
 		},
+		
+		total(){
+			const length = this.cart.length
+			for(let i = 0; i < length; i++){
+				this.prices.push(this.cart[i].item.price * this.cart[i].item.quantity)
+			}
+				let sum = this.prices.reduce((a, b) => a + b)
+				console.log(sum)
+				this.priceWithoutTax = sum
+				this.priceWithTax = Math.floor(sum * 1.1)
+		},
+		
+		calcTax(){
+			const length = this.cart.length
+			for(let i = 0; i < length; i++){
+				this.prices.push(this.cart[i].item.price * this.cart[i].item.quantity)
+			}
+				this.tax = Math.floor(this.priceWithoutTax * 0.1)
+			},
+
 		...mapActions(['addUserInfo']),
 	}
 
@@ -377,6 +396,9 @@ export default({
 	.table{
 		margin-left: auto;
 		margin-right: auto;
+	}
+	.red{
+		color: red;
 	}
 
 </style>

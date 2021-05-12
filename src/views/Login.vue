@@ -1,32 +1,5 @@
 <template>
     <div class="container">
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-				<!-- Brand and toggle get grouped for better mobile display -->
-				<div class="navbar-header">
-					<button type="button" class="navbar-toggle collapsed"
-						data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-						aria-expanded="false">
-						<span class="sr-only">Toggle navigation</span> <span
-							class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<a class="navbar-brand" href=""> <!-- 企業ロゴ --> <img
-						alt="main log" src="" height="35">
-					</a>
-				</div>
-
-				<!-- Collect the nav links, forms, and other content for toggling -->
-				<div class="collapse navbar-collapse"
-					id="bs-example-navbar-collapse-1">
-					<p class="navbar-text navbar-right">
-						<a href="" class="navbar-link">ショッピングカート</a>&nbsp;&nbsp;
-					</p>
-				</div>
-				<!-- /.navbar-collapse -->
-			</div>
-			<!-- /.container-fluid -->
-		</nav>
 		
 		<!-- login form -->
 		<div class="row">
@@ -42,12 +15,14 @@
 							<div class="form-group">
 								<label for="inputEmail">メールアドレス:</label>
 								<input type="text" id="inputEmail" class="form-control"
-									placeholder="Email">
+									placeholder="Email" v-model="userInfo.email">
+
+								<div v-if="!userInfo.email" class="red">必須項目です</div>
 							</div>
 							<div class="form-group">
 								<label for="inputPassword">パスワード:</label>
 								<input type="text" id="inputPassword" class="form-control"
-									placeholder="Password">
+									placeholder="Password" v-model="userInfo.password">
 							</div>
 							<div class="form-group">
 								<button type="submit" class="btn btn-primary" @click.prevent="login">ログイン</button>
@@ -72,6 +47,14 @@ import { mapActions } from "vuex";
 
 export default ({
 	name: 'Login',
+	data(){
+		return {
+			userInfo: {
+				email: '',
+				password: '',
+			}
+		}
+	},
 	methods: {
 		...mapActions(['login'])
 	}

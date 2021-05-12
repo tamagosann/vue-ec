@@ -1,35 +1,5 @@
 <template>
     <div class="container">
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed"
-                        data-toggle="collapse" data-target="#bs-example-navbar-collapse-1"
-                        aria-expanded="false">
-                        <span class="sr-only">Toggle navigation</span> <span
-                            class="icon-bar"></span> <span class="icon-bar"></span> <span
-                            class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand"> <!-- 企業ロゴ --> <img
-                        alt="main log" src="" height="35">
-                    </a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-
-				<!-- リンク -->
-                <div class="collapse navbar-collapse"
-                    id="bs-example-navbar-collapse-1">
-                    <p class="navbar-text navbar-right">
-                        <a href="" class="navbar-link">注文履歴</a>&nbsp;&nbsp;
-                        <a href="" class="navbar-link">ログイン</a>&nbsp;&nbsp;
-                        <a href="" class="navbar-link">ログアウト</a>
-                    </p>
-                </div>
-                <!-- /.navbar-collapse -->
-            </div>
-        </nav>
 
         <!-- table -->
 		<div class="row">
@@ -58,10 +28,10 @@
 							</td>
 							<td style="text-align: center">
 								<div>
-									{{item.name}}
+									{{item.item.name}}
 								</div>
 								<div class="price">
-									{{item.price}}円	
+									{{item.item.price}}円	
 								</div>
 							</td>
 						</tr>
@@ -92,65 +62,22 @@
 			</div>
 		</div>
 
+		<!-- 表示はできる -->
+		<div>{{loginUser.cart}}</div>
+
     </div>
     
 </template>
 
 <script>
-import Vue from 'vue'
-import Vuex from 'vuex'
 
 // import {mapGetters} from 'vuex'
 import {mapActions} from 'vuex'
 
-Vue.use(Vuex)
-
-const store = new Vuex.Store({
-	state: {
-		userInfo: {},
-		// items: [
-		// 	{id: 1, name: 'apple', price: 100},
-		// 	{id: 2, name: 'orange', price: 80},
-		// 	{id: 3, name: 'lemon', price: 75},
-		// 	{id: 4, name: 'steak', price: 1300},
-		// ],
-		total: ''
-	},
-	mutations: {
-		addUserInfo(state, info){
-			state.userInfo = info
-		},
-		showTotal(state, price){
-			state.total = price
-		}
-	},
-	actions: {
-		addUserInfo({commit}, info){
-			commit('addUserInfo', info)
-		},
-		showTotal({commit}, price){
-			commit('showTotal', price)
-		}
-	},
-	getters: {
-    items: state => state.items,
-    loginUser: state => state.loginUser,
-  },
-})
-
-
-
 export default({
-	store,
     name: 'CartList',
 	created(){
-		this.items.forEach(item => {
-				this.prices.push(item.price)
-			})
-			// console.log(this.prices)
-
-			let sum = this.prices.reduce((a, b) => a + b)
-			this.totalPrice = sum
+		
 	},
 	data(){
 		return {
@@ -163,43 +90,27 @@ export default({
 				{title: "代金引換", status: 1},
 				{title: "クレジットカード", status: 2},
 			],
-			// お届け先情報（ソース）
-			info: {},
-			// お届け先情報（store.state）
-			// userInfo: {},
 
-			// 確認
-			objs: {name: 'John', num: 19},
-
-			// 練習
-			items: [
-			{id: 1, name: 'apple', price: 100},
-			{id: 2, name: 'orange', price: 80},
-			{id: 3, name: 'lemon', price: 75},
-			{id: 4, name: 'steak', price: 1000},
-			],
 			prices: [],
 			totalPrice: ''
-
 		}
 	},
 	computed: {
-		// ...mapGetters(['items'])
+		items(){
+			return this.$store.state.loginUser.cart
+		},
+		loginUser(){
+			return this.$store.state.loginUser
+		}
+		// ...mapGetters(['loginUser'])
 	},
 
 	methods: {
-		// addUserInfo(info){
-		// 	info = this.info
-		// 	this.$store.state.userInfo = info
-		// 	// console.log(this.$store.state.userInfo)
-		// },
 		submit(){
 			this.addUserInfo(this.info)
 			console.log(this.$store.state.userInfo)
 		},
-
-		...mapActions(['addUserInfo', 'showTotal']),
-
+		...mapActions(['addUserInfo']),
 	}
 
 })

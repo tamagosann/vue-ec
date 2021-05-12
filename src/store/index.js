@@ -178,7 +178,13 @@ export default new Vuex.Store({
       });
       state.loginUser.histories[index].status = item.status;
       console.log(state);
-    }
+    },
+    // updateCart(state, cartItem) {
+    //   const index = state.loginUser.cart.findIndex(cart => {
+    //     return cart.cartItemId === cartItem.cartItemId
+    //   });
+    //   state.cart[index] == cartItem;
+    // }
 
   },
   actions: {
@@ -244,15 +250,40 @@ export default new Vuex.Store({
 		},
     addToCartAction(state, item) {
       if(state.getters.uid) {
-        firebase.firestore().collection(`users/${state.getters.uid}/cart`).add(item)
-          .then(doc => {
-            const itemToStoreCart = {
-              userId: state.getters.uid,
-              cartItemId: doc.id,
-              item: item,
-            };
-            state.commit('addToCartAction', itemToStoreCart)
-          });
+        // //まずはすでに同じ商品がカートに入ってないか調べ、入っていたら個数だけ追加する。
+        // const existedItem = state.getters.cart.find(cartItem => {
+        //   return cartItem.item.id === item.id
+        // });
+
+        // if(existedItem) {
+        //   const newItem = existedItem.item;
+        //   const newCartItem = {
+        //     userId: existedItem.userId,
+        //     cartItemId: existedItem.cartItemId,
+        //     item: {
+        //       ...newItem,
+        //       quantity: (newItem.quantity + item.quantity),
+        //     }
+        //   };
+
+        //   firebase.firestore().collection(`users/${state.getters.uid}/cart`).doc(existedItem.cartItemId)
+        //     .update(newCartItem).then(() => {
+        //       state.commit('updateCart', newCartItem);
+        //     })
+
+        // } else 
+        
+        // {
+          firebase.firestore().collection(`users/${state.getters.uid}/cart`).add(item)
+            .then(doc => {
+              const itemToStoreCart = {
+                userId: state.getters.uid,
+                cartItemId: doc.id,
+                item: item,
+              };
+              state.commit('addToCartAction', itemToStoreCart)
+            });
+        // }
       } else {
         const itemToStoreCartNotUser = {
           userId: null,

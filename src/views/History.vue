@@ -3,11 +3,11 @@
         <!-- table -->
 		<div class="row">
 			<div
-				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+				class="col-lg-offset-3 col-lg-6 col-md-offset-2 margin-auto">
 				<h3 class="text-center">注文履歴</h3>
 
 			<!-- 商品名 / 価格ヘッダー -->
-				<table class="table table-striped item-list-table" style="width: 600px">
+				<table class="table table-striped item-list-table" style="max-width: 600px">
 					<tbody>
 						<tr>
 							<th width="150px">
@@ -21,11 +21,10 @@
 								</span>
 							</th>
 						</tr>
-
-						<tr v-for="history in histories" :key="history.id">
+						<tr v-for="history in histories" :key="history.historyItemId">
 							<td>
 								<div class="center">
-									<img :src="history.path"
+									<img :src="history.item.path"
 										class="img-responsive img-rounded item-img-center" width="150" height="150">
 										<br>
 								</div>
@@ -33,17 +32,26 @@
 							<td style="text-align: center">
 								<div>
 									<div>
-										{{history.name}}
+										{{history.item.name}}
 									</div>
 									<div class="price">
-										{{history.price}}円	
+										{{history.item.price.toLocaleString()}}円	
 									</div>
 									<div class="price">
-										{{history.quantity}}個	
+										{{history.item.quantity}}個	
+									</div>
+									<div>
+										状態：{{history.status | status}}	
+									</div>
+									<div v-if="history.status !== 9">
+										お届け先住所：{{history.destinationAddress}}
+									</div>
+									<div v-if="history.status !== 9">
+										お届け予定日：{{history.destinationTime}}
 									</div>
 									<br>
-									<div>
-										<button>購入をキャンセル</button>
+									<div v-if="history.status !== 9">
+										<button @click.prevent="orderCancell(history)">購入をキャンセル</button>
 									</div>
 								</div>
 							</td>
@@ -52,16 +60,6 @@
 					</tbody>
 				</table>
 
-			</div>
-		</div>
-
-        <div class="row">
-			<div class="col-xs-offset-2 col-xs-8">
-				<div class="form-group text-center">
-					<div>消費税：{{tax}}円</div>
-					<div id="total-price">合計金額：{{priceWithTax}}円（税込）</div>
-					<br>
-				</div>
 			</div>
 		</div>
 
@@ -76,48 +74,29 @@ import {mapActions} from 'vuex'
 
 export default({
     name: 'History',
-	created(){
-		this.total()
-        this.calcTax()
-	},
-	data(){
-		return {
-			prices: [],
-			priceWithTax: '',
-			priceWithoutTax: '',
-			tax: '',
-		}
+	filters: {
+		status(item) {
+			if(item === 0) {
+				return '未入金'
+			} else if(item === 1) {
+				return '入金済み'
+			} else if(item === 9) {
+				return 'キャンセル済み'
+			}
+		},
 	},
 	computed: {
-		histories(){
-			return this.histories
-		},
 		...mapGetters(['loginUser', 'histories']),
 	},
-
 	methods: {
-		total(){
-			const length = this.histories.length
-			for(let i = 0; i < length; i++){
-				this.prices.push(this.histories[i].price * this.histories[i].quantity)
-			}
-			if(length > 0){
-				let sum = this.prices.reduce((a, b) => a + b)
-				// console.log(sum)
-				this.priceWithoutTax = sum
-				this.priceWithTax = Math.floor(sum * 1.1)
+		orderCancell(history) {
+			if(confirm('本当にキャンセルしますか？')) {
+				this.deleteOrderAction(history);
 			}
 		},
-		
-		calcTax(){
-			const length = this.histories.length
-			for(let i = 0; i < length; i++){
-				this.prices.push(this.histories[i].price * this.histories[i].quantity)
-			}
-				this.tax = Math.floor(this.priceWithoutTax * 0.1)
-			},
-		...mapActions(['addUserInfo']),
+		...mapActions(['deleteOrderAction'])
 	}
+	
 
 })
 </script>
@@ -129,6 +108,9 @@ export default({
 	}
 	.red{
 		color: red;
+	}
+	.margin-auto {
+		margin: 0 auto;
 	}
 
 </style>

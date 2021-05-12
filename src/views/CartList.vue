@@ -18,25 +18,26 @@
 							</th>
 						</tr>
 
-						<tr v-for="cartItem in cart" :key="cartItem.id">
+						<tr v-for="cartItem in cart" :key="cartItem.item.id">
 							<td>
 								<div class="center">
-									<img :src="cartItem.path"
+									<img :src="cartItem.item.path"
 										class="img-responsive img-rounded item-img-center" width="150" height="150">
 										<br>
 								</div>
 							</td>
 							<td style="text-align: center">
 								<div>
-									{{cartItem.name}}
+									{{cartItem.item.name}}
+									<!-- {{cartItem}} -->
 								</div>
 								<br>
 								<div class="price">
-									{{cartItem.price}}円 × {{cartItem.quantity}}個
+									{{cartItem.item.price}}円 × {{cartItem.item.quantity}}個
 								</div>
 								<br>
 								<div>
-									<button>削除</button>
+									<button @click="deleteCart(cartItem)">削除</button>
 								</div>
 							</td>
 						</tr>
@@ -50,8 +51,11 @@
 		<div class="row">
 			<div class="col-xs-offset-2 col-xs-8">
 				<div class="form-group text-center">
-					<div>消費税：{{tax}}円</div>
-					<div id="total-price">合計金額：{{priceWithTax}}円（税込）</div>
+					<div>消費税：??円</div>
+					<!-- <div id="total-price">合計金額：{{priceWithTax.toLocaleString()}}円（税込）</div> -->
+					<div id="total-price">合計金額：??円（税込）</div>
+					<!-- <div>{{items}}</div> -->
+					<!-- <div>{{uid}}</div> -->
 					<br>
 				</div>
 			</div>
@@ -75,13 +79,12 @@
 <script>
 
 import {mapGetters} from 'vuex'
-// import {mapActions} from 'vuex'
+import {mapActions} from 'vuex'
 
 export default({
     name: 'CartList',
 	created(){
-		this.total()
-		this.calcTax()
+		// this.fetchUserInfo(this.uid)
 	},
 	data(){
 		return {
@@ -95,40 +98,29 @@ export default({
 				{title: "クレジットカード", status: 2},
 			],
 
-			prices: [],			
+			prices: [],	
+			pricesWithQuantity: [],
 			priceWithTax: '',
 			priceWithoutTax: '',
-			tax: '',
 		}
 	},
 	computed: {
-		...mapGetters(['cart'])
+		
+
+		...mapGetters(['cart', 'uid', 'items', 'noTaxSumPrice'])
 	},
 
 	methods: {
 		submit(){
 			this.$router.push({name: 'OrderConfirm'})
+			// 注文内容確認ボタン（OrderConfirmへ移行）
+			this.settleAction(this.cart)
 		},
-		total(){
-			const length = this.cart.length
-			for(let i = 0; i < length; i++){
-				this.prices.push(this.cart[i].price * this.cart[i].quantity)
-			}
+		deleteCart(selectedItem){
+			this.deleteCartAction(selectedItem)
+		},
 
-			if (length > 0) {
-				let sum = this.prices.reduce((a, b) => a + b)
-				this.priceWithoutTax = sum
-				this.priceWithTax = Math.floor(sum * 1.1)
-			}
-		},
-		
-		calcTax(){
-			const length = this.cart.length
-			for(let i = 0; i < length; i++){
-				this.prices.push(this.cart[i].price * this.cart[i].quantity)
-			}
-			this.tax = Math.floor(this.priceWithoutTax * 0.1)
-		},
+		...mapActions(['deleteCartAction', 'fetchUserInfo', 'settleAction'])
 	}
 
 })

@@ -133,6 +133,13 @@ export default new Vuex.Store({
     uid: state => state.loginUser.userId ? state.loginUser.userId : null,
     cart: state => state.loginUser.cart ? state.loginUser.cart : null,
     histories: state => state.loginUser.histories ? state.loginUser.histories : null,
+    noTaxSumPrice(state) {
+      const initial = state.loginUser.cart[0].item.price * state.loginUser.cart[0].item.quantity;
+      const sum = state.loginUser.cart.reduce((a, b) => {
+        return a + (b.item.price * b.item.quantity)
+      }, initial);
+      return sum
+    }
   },
   mutations: {
     itemSearch(state, items) {
@@ -171,6 +178,7 @@ export default new Vuex.Store({
     },
     settle(state, history) {
       state.loginUser.histories.push(history);
+      console.log('ヒストリーに追加しました');
       console.log(state);
     },
     deleteOrder(state, item) {
@@ -285,16 +293,22 @@ export default new Vuex.Store({
           state.commit('deleteCart', item);
         })
     },
-    settleAction(state, history) {
-      firebase.firestore().collection(`users/${state.getters.uid}/history`).add(history)
-      .then(doc => {
-        const historyToStoreHistories = {
+    settleAction(state, info) {
+      state.getters.cart.forEach(cartItem => {
+        const history = {
           userId: state.getters.uid,
-          historyItemId: doc.id,
-          ...history,
+          ...info,
+          item: cartItem.item,
         };
-        state.commit('settle', historyToStoreHistories)
-      });
+        firebase.firestore().collection(`users/${state.getters.uid}/history`).add(history)
+        .then(doc => {
+          const historyToStoreHistories = {
+            historyItemId: doc.id,
+            ...history,
+          };
+          state.commit('settle', historyToStoreHistories)
+        });
+      })
     },
     deleteOrderAction(state, history){//historiesの中の一つ一つのオブジェクト形式の情報が欲しい
       const newHistoryItem = {

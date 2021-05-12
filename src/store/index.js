@@ -255,9 +255,7 @@ export default new Vuex.Store({
           const pushItem = {
             userId: uid,
             historyItemId: doc.id,
-            item: {
-              ...data,
-            },
+            ...data,
           }
           user.history.push(pushItem)})
       });
@@ -315,7 +313,7 @@ export default new Vuex.Store({
         ...history,
         status: 9,
       };
-      firebase.firestore().collection(`users/${state.getters.uid}/cart`).doc(history.historyItemId)
+      firebase.firestore().collection(`users/${state.getters.uid}/history`).doc(history.historyItemId)
         .update(newHistoryItem).then((doc) => {
           console.log(doc);
         state.commit('deleteOrder', newHistoryItem);

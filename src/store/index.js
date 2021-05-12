@@ -158,6 +158,7 @@ export default new Vuex.Store({
       console.log(history)
 		},
     addToCartAction(state, item) {
+      console.log(item);
       state.loginUser.cart.push(item);
       console.log(state);
     },
@@ -231,10 +232,26 @@ export default new Vuex.Store({
         history: [],
       };
       firebase.firestore().collection(`users/${uid}/cart`).get().then(snapshot => {
-        snapshot.forEach(doc => user.cart.push(doc.data()))
+        snapshot.forEach(doc => {
+          const pushItem = {
+            userId: uid,
+            cartItemId: doc.id,
+            item: doc.data(),
+          }
+          user.cart.push(pushItem);
+        })
       });
       firebase.firestore().collection(`users/${uid}/history`).get().then(snapshot => {
-        snapshot.forEach(doc => user.history.push(doc.data()))
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const pushItem = {
+            userId: uid,
+            historyItemId: doc.id,
+            item: {
+              ...data,
+            },
+          }
+          user.history.push(pushItem)})
       });
 
       state.commit('fetchUserInfo', user)

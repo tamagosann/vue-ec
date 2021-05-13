@@ -6,7 +6,7 @@
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<h3 class="text-center">ショッピングカート</h3>
+				<h3 class="text-center page-title marker">ショッピングカート</h3>
 
 			
 				<!-- 何もないときは表示しない -->
@@ -30,21 +30,21 @@
 								</td>
 								<td style="text-align: center">
 									<div class="bold">
-										【商品名】
+										
 									</div>
 									<div>
 										{{cartItem.item.name}}
 									</div>
 
 									<br>
-									<div v-show="cartItem.item.description" class="bold">
-										【商品キャプション】
+									<div v-show="cartItem.item.description" class="item-description-title">
 									</div>
-									<div>
-										{{cartItem.item.description}}
+									<div class="item-description">
+										{{cartItem.item.description ? cartItem.item.description : '商品キャプションが登録されていません'}}
+										<br>
 										<br>
 									</div>
-									<div class="price">
+									<div class="price price-and-quantity">
 										{{cartItem.item.price.toLocaleString()}}円 × {{cartItem.item.quantity}}個
 									</div>
 									<br>
@@ -114,7 +114,7 @@ export default({
 		return {
 			tableHeaders: [
 				{title: "商品"},
-				{title: "商品情報 / 価格（税抜）"},
+				{title: "詳細情報"},
 			],
 			paymentMethods: [
 				{title: "代金引換", status: 1},
@@ -189,16 +189,36 @@ export default({
 	.description{
 		font-size: 25px
 	}
-	button input {
-    text-decoration: none;
-    opacity: 1;
-    transition: all 0.3s;
+	button, input {
+		text-decoration: none;
+		opacity: 1;
+		transition: all 0.3s;
 	}
 	button:hover {
 		opacity: 0.7;
 	}
 	input:hover {
 		opacity: 0.7;
+	}
+	.item-description-title {
+		font-size: 14px;
+		color: rgba(0, 0, 0, 1)
+	}
+	.item-description {
+		font-size: 12px;
+		color: rgba(0, 0, 0, 0.5)
+	}
+	.price-and-quantity {
+		font-size: 15px;
+		font-weight: bold;
+	}
+	.page-title {
+		margin-bottom: 30px
+	}
+	.marker {
+		background: linear-gradient(transparent 50%, #ffcc66 80%);
+		width: 250px;
+		margin: 30px auto;
 	}
 
 

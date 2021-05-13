@@ -6,7 +6,7 @@
 			<div class="row">
 				<div
 					class="col-lg-offset-3 col-lg-6 col-md-offset-2 margin-auto">
-					<h3 class="text-center">注文履歴</h3>
+					<h3 class="text-center page-title">注文履歴</h3>
 
 				<!-- 商品名 / 価格ヘッダー -->
 					<table class="table table-striped item-list-table" style="max-width: 600px">
@@ -19,7 +19,7 @@
 								</th>
 								<th width="150px">
 									<span class="text-center">
-										商品名 / 価格
+										詳細情報
 									</span>
 								</th>
 							</tr>
@@ -36,21 +36,28 @@
 										<div>
 											{{history.item.name}}
 										</div>
-										<div class="price">
-											{{history.item.price.toLocaleString()}}円	
+										<div class="price price-and-quantity">
+											{{history.item.price.toLocaleString()}}円 × {{history.item.quantity}}個	
 										</div>
-										<div class="price">
-											{{history.item.quantity}}個	
-										</div>
-										<div>
-											状態：{{history.status | status}}	
-										</div>
-										<div v-if="history.status !== 9">
-											お届け先住所：{{history.destinationAddress}}
-										</div>
-										<div v-if="history.status !== 9">
-											お届け予定日：{{history.destinationTime}}
-										</div>
+										
+										<ul class="order-info-ul">
+											<li>
+												状態：{{history.status | status}}
+											</li>
+											<li>
+												<div v-if="history.status !== 9">
+													お届け先住所：{{history.destinationAddress}}
+												</div>
+											</li>
+											<li>
+												<div v-if="history.status !== 9">
+													お届け予定日：{{history.destinationTime}}
+												</div>
+											</li>
+										</ul>
+										
+										
+										
 										<br>
 										<div v-if="history.status !== 9">
 											<button @click.prevent="orderCancell(history)">購入をキャンセル</button>
@@ -61,6 +68,19 @@
 							
 						</tbody>
 					</table>
+
+					<!-- 注文に進むボタン -->
+					<div class="btnContainer">
+						
+						<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
+							<div class="form-group">
+								<router-link :to="{name: 'ItemList'}" style="text-decoration: none">
+									<input class="form-control btn btn-warning btn-block" value="ホーム画面に戻る">
+								</router-link>
+							</div>
+						</div>
+
+					</div>
 
 				</div>
 			</div>
@@ -124,6 +144,49 @@ export default({
 		margin-top: 100px;
 		height: 100px;
 		font-size: 40px;
+	}
+	.btnContainer{
+		display: flex;
+		justify-content: center;
+	}
+	.bold{
+		font-weight: bold;
+	}
+	.description{
+		font-size: 25px
+	}
+	button input {
+    text-decoration: none;
+    opacity: 1;
+    transition: all 0.3s;
+	}
+	button:hover {
+		opacity: 0.7;
+	}
+	input:hover {
+		opacity: 0.7;
+	}
+	.item-description-title {
+		font-size: 14px;
+		color: rgba(0, 0, 0, 1)
+	}
+	.item-description {
+		font-size: 12px;
+		color: rgba(0, 0, 0, 0.5)
+	}
+	.price-and-quantity {
+		font-size: 15px;
+		font-weight: bold;
+		margin:  10px 0;
+	}
+	.order-info-ul {
+		list-style-type: none;
+		text-align: left;
+		margin-left: 15px;
+
+	}
+	.page-title {
+		margin-bottom: 30px
 	}
 
 </style>

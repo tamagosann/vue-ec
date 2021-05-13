@@ -4,7 +4,7 @@
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<h3 class="text-center">注文内容確認</h3>
+				<h3 class="text-center page-title marker">注文内容確認</h3>
 
 			<!-- 商品名 / 価格ヘッダー -->
 				<table class="table table-striped item-list-table" style="width: 600px">
@@ -34,7 +34,7 @@
 									{{cartItem.item.name}}
 								</div>
 								<br>
-								<div class="price">
+								<div class="price price-and-quantity">
 									{{cartItem.item.price.toLocaleString()}}円 × {{cartItem.item.quantity}}個
 								</div>
 							</td>
@@ -63,7 +63,7 @@
 			<div class="row">
 				<div
 					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-					<h3 class="text-center">お届け先情報</h3>
+					<h3 class="text-center page-title marker">お届け先情報</h3>
 
 					<div v-if="errors.length">
 						<ul class="ul-align-center">
@@ -261,7 +261,7 @@
 			<div class="row">
 				<div
 					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-					<h3 class="text-center">お支払い方法</h3>
+					<h3 class="text-center page-title marker">お支払い方法</h3>
 					<table class="table table-striped item-list-table">
 						<tbody>
 							<tr>
@@ -296,14 +296,14 @@
 			<div class="btnContainer">
 				<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
 					<div class="form-group">
-						<input class="form-control btn btn-warning btn-block" value="この内容で注文する" @click="submit" >
+						<input class="form-control btn btn-warning btn-block bottom-btn" value="この内容で注文する" @click="submit" >
 					</div>
 				</div>
 
 				<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
 					<div class="form-group">
 						<router-link :to="{name: 'CartList'}">
-							<input class="form-control btn btn-warning btn-block" value="カート画面に戻る">
+							<input class="form-control btn btn-warning btn-block bottom-btn" value="カート画面に戻る">
 						</router-link>
 					</div>
 				</div>
@@ -422,6 +422,35 @@ export default({
 	.btnContainer{
 		display: flex;
 		justify-content: center;
+	}
+	.description{
+		font-size: 25px
+	}
+	button, input {
+		text-decoration: none;
+		opacity: 1;
+		transition: all 0.3s;
+	}
+	button:hover {
+		opacity: 0.7;
+	}
+	input:hover {
+		opacity: 0.7;
+	}
+	.price-and-quantity {
+		font-size: 15px;
+		font-weight: bold;
+	}
+	.page-title {
+		margin-bottom: 30px
+	}
+	.marker {
+		background: linear-gradient(transparent 50%, #ffcc66 80%);
+		width: 250px;
+		margin: 30px auto;
+	}
+	.bottom-btn {
+		margin: 40px 0 100px 0;
 	}
 
 </style>

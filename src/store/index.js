@@ -136,10 +136,9 @@ export default new Vuex.Store({
     histories: state => state.loginUser.histories ? state.loginUser.histories : null,
     noTaxSumPrice(state) {
       if(state.loginUser.cart.length > 0) {
-        const initial = state.loginUser.cart[0].item.price * state.loginUser.cart[0].item.quantity;
         const sum = state.loginUser.cart.reduce((a, b) => {
           return a + (b.item.price * b.item.quantity)
-        }, initial);
+        }, 0);
         return sum
       } else {
         return 0

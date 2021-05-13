@@ -14,8 +14,8 @@
 								<label for="code" class="control-label col-sm-2">商品名</label>
 								<div class="col-sm-9">
 									<input type="text" name="code" id="code" class="form-control input-sm" @keyup="keywordKeyUp" v-model="keyword">
-									<p v-show="keywordBlankFlag" class="alert">※キーワードを入力してください</p>
-									<p v-show="searchMissedFlag" class="alert">※キーワードに一致するものがありません。</p>
+									<span v-show="keywordBlankFlag" class="alert">※キーワードを入力してください</span><br>
+									<span v-show="searchMissedFlag" class="alert">※キーワードに一致するものがありません。</span>
 								</div>
 							</div>
 							<div class="text-center">

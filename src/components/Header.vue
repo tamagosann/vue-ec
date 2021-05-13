@@ -17,7 +17,7 @@
         <router-link :to="{name: 'ItemList'}">
           <a class="navbar-brand">
             <!-- 企業ロゴ -->
-            <img alt="main log" src="@/assets/images/header-logo.png" height="35" />
+            <img alt="main log" src="@/assets/images/header-logo.png" height="35" style="margin-bottom:5px" />
           </a>
         </router-link>
       </div>

@@ -134,10 +134,15 @@ export default({
 		},
 		deleteCart(selectedItem){
 			if(confirm('本当にカートから消去しますか？')) {
-				this.deleteCartAction(selectedItem)
+
+				if(this.uid) {
+					this.deleteCartAction(selectedItem)
+				} else {
+					this.deleteCartNoUserAction(selectedItem)
+				}
 			}
 		},
-		...mapActions(['deleteCartAction', 'fetchUserInfo', 'settleAction','login'])
+		...mapActions(['deleteCartAction', 'fetchUserInfo', 'settleAction','login','deleteCartNoUserAction'])
 	}
 
 })

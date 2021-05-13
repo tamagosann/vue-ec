@@ -15,9 +15,9 @@
           <span class="icon-bar"></span>
         </button>
         <router-link :to="{name: 'ItemList'}">
-          <a class="navbar-brand">
+          <a class="navbar-brand" style="padding:0px;">
             <!-- 企業ロゴ -->
-            <img alt="main log" src="@/assets/images/header-logo.png" height="35" />
+            <img alt="main log" src="@/assets/images/header-logo.png" height="50px"/>
           </a>
         </router-link>
       </div>

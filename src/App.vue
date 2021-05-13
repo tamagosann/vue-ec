@@ -7,7 +7,7 @@
 
 <script>
 import firebase from 'firebase';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
 import Header from './components/Header';
 
 export default {
@@ -21,8 +21,8 @@ export default {
         console.log(uid);
         this.fetchUserInfo(uid);
 
-        if(this.$router.currentRoute.name === "Login") {
-          // this.$router.push({name: "ItemList"}, () => {});
+        if(this.$router.currentRoute.name !== "CartList") {
+          this.$router.push({name: "ItemList"}, () => {});
         }
       } else {
         this.deleteLoginUser();
@@ -32,6 +32,9 @@ export default {
   },
   methods: {
     ...mapActions(['setUserId', 'logout', 'deleteLoginUser', 'fetchUserInfo'])
+  },
+  computed: {
+    ...mapGetters(['cart'])
   }
 }
 </script>

@@ -188,6 +188,11 @@ export default new Vuex.Store({
       state.loginUser.histories[index].status = item.status;
       console.log(state);
     },
+    logout(state) {
+      state.loginUser.userId = null;
+      state.loginUser.cart = [];
+      state.loginUser.histories = [];
+    }
 
   },
   actions: {
@@ -227,8 +232,9 @@ export default new Vuex.Store({
       const google_auth_provider = new firebase.auth.GoogleAuthProvider();
       firebase.auth().signInWithRedirect(google_auth_provider);
     },
-    logout() {
+    logout(state) {
       firebase.auth().signOut();
+      state.commit('logout');
     },
     deleteLoginUser(state) {
       state.commit('deleteLoginUser');
@@ -285,6 +291,13 @@ export default new Vuex.Store({
         state.commit('addToCartAction', itemToStoreCartNotUser)
       }
     },
+    // この下のコメントアウトは、ログイン時にカートにログイン前のカートを反映させようとしてできなかった残骸のメソッドです。
+    // ログインしないとuseridを得ることはできないけど、ログインしたらリダイレクトされるのでログイン前のデータの保持の方法がわかりませんでした、、、。
+    // addCartWithLogin(state, cart) {
+    //   cart.forEach(cartItem => {
+    //     firebase.firestore().collection(`users/${state.getters.uid}/cart`).add(item)
+    //   })
+    // },
     deleteCartAction(state, item) { // itemはカートから消去するcartの中のitem
       firebase.firestore().collection(`users/${state.getters.uid}/cart`).doc(item.cartItemId).delete()
         .then(() => {
@@ -304,7 +317,11 @@ export default new Vuex.Store({
             historyItemId: doc.id,
             ...history,
           };
-          state.commit('settle', historyToStoreHistories)
+          firebase.firestore().collection(`users/${state.getters.uid}/cart`).doc(cartItem.cartItemId)
+            .delete().then(() => {
+              state.commit('deleteCart', cartItem);
+              state.commit('settle', historyToStoreHistories)
+            });
         });
       })
     },

@@ -2,7 +2,7 @@
     <div class="container">
 
         <!-- table -->
-		<div v-if="this.cart.length > 0">
+		<div v-if="cart.length > 0">
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
@@ -20,7 +20,7 @@
 								</th>
 							</tr>
 
-							<tr v-for="cartItem in cart" :key="cartItem.item.id">
+							<tr v-for="cartItem in cart" :key="cartItem.cartItemId">
 								<td>
 									<div class="center">
 										<img :src="cartItem.item.path"
@@ -35,11 +35,11 @@
 									</div>
 									<br>
 									<div class="price">
-										{{cartItem.item.price}}円 × {{cartItem.item.quantity}}個
+										{{cartItem.item.price.toLocaleString()}}円 × {{cartItem.item.quantity}}個
 									</div>
 									<br>
 									<div>
-										<button @click="deleteCart(cartItem)">削除</button>
+										<button @click.prevent="deleteCart(cartItem)">削除</button>
 									</div>
 								</td>
 							</tr>
@@ -51,11 +51,9 @@
 					<div class="row">
 						<div class="col-xs-offset-2 col-xs-8">
 							<div class="form-group text-center">
-								<div>消費税：??円</div>
-								<!-- <div id="total-price">合計金額：{{priceWithTax.toLocaleString()}}円（税込）</div> -->
-								<div id="total-price">合計金額：??円（税込）</div>
-								<!-- <div>{{items}}</div> -->
-								<!-- <div>{{uid}}</div> -->
+								<div>小計：{{ noTaxSumPrice.toLocaleString() }}円</div>
+								<div>消費税：{{ (Math.floor(noTaxSumPrice * 0.1)).toLocaleString() }}円</div>
+								<div id="total-price">合計金額：{{ Math.floor(noTaxSumPrice * 1.1).toLocaleString() }}円（税込）</div>
 								<br>
 							</div>
 						</div>
@@ -65,9 +63,7 @@
 					<div class="row">
 						<div class="col-xs-offset-4 col-xs-4">
 							<div class="form-group" style="text-align: center">
-								<router-link :to="{name: 'OrderConfirm'}">
-										<input class="form-control btn btn-warning btn-block" type="submit" value="注文に進む" @click="submit()">
-								</router-link>
+								<input class="form-control btn btn-warning btn-block" type="submit" value="注文に進む" @click="submit">
 							</div>
 						</div>
 					</div>
@@ -100,35 +96,48 @@ export default({
 				{title: "商品"},
 				{title: "商品名 / 価格（税抜）"},
 			],
-			
 			paymentMethods: [
 				{title: "代金引換", status: 1},
 				{title: "クレジットカード", status: 2},
 			],
-
-			prices: [],	
-			pricesWithQuantity: [],
-			priceWithTax: '',
-			priceWithoutTax: '',
 		}
 	},
 	computed: {
-		
-
 		...mapGetters(['cart', 'uid', 'items', 'noTaxSumPrice'])
 	},
 
 	methods: {
 		submit(){
-			this.$router.push({name: 'OrderConfirm'})
-			// 注文内容確認ボタン（OrderConfirmへ移行）
-			this.settleAction(this.cart)
+			if(!this.uid) {
+				this.login();
+
+			// 以下のコメントアウトは、ログイン時のカート保持に失敗した残骸です。
+			// if(this.cart.length > 0) {
+			// 	console.log('出てる？');
+			// 	const newCart = [];
+
+			// 	this.cart.forEach(cartItem => {
+			// 		const newCartItemItem = cartItem.item;
+			// 		delete newCartItemItem.userId;
+
+			// 		newCart.push(newCartItemItem);
+			// 	});
+
+			// 	console.log(newCart);
+
+			// }
+
+			} else {
+				// this.settleAction(this.cart)
+				this.$router.push({name: 'OrderConfirm'})
+			}
 		},
 		deleteCart(selectedItem){
-			this.deleteCartAction(selectedItem)
+			if(confirm('本当にカートから消去しますか？')) {
+				this.deleteCartAction(selectedItem)
+			}
 		},
-
-		...mapActions(['deleteCartAction', 'fetchUserInfo', 'settleAction'])
+		...mapActions(['deleteCartAction', 'fetchUserInfo', 'settleAction','login'])
 	}
 
 })

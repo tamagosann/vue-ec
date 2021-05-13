@@ -43,7 +43,7 @@
             href=""
             v-show="uid !== null"
             class="navbar-link"
-            @click.prevent="logout"
+            @click.prevent="goLogout"
             >ログアウト</a
           >
         </p>
@@ -61,6 +61,13 @@ export default {
     ...mapGetters(["uid"]),
   },
   methods: {
+    goLogout() {
+        this.logout();
+
+        if(this.$router.currentRoute.name !== "ItemList") {
+          this.$router.push({name: "ItemList"}, () => {});
+        }
+    },
     ...mapActions(["logout", "login"]),
   },
 };

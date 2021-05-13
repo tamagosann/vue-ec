@@ -126,6 +126,7 @@ export default new Vuex.Store({
       //   path: '../assets/images/3.png'
       // },
     ],
+    searchMissedFlag: false,
   },
   getters: {
     items: state => state.items,
@@ -134,17 +135,27 @@ export default new Vuex.Store({
     cart: state => state.loginUser.cart ? state.loginUser.cart : null,
     histories: state => state.loginUser.histories ? state.loginUser.histories : null,
     noTaxSumPrice(state) {
-      const initial = state.loginUser.cart[0].item.price * state.loginUser.cart[0].item.quantity;
-      const sum = state.loginUser.cart.reduce((a, b) => {
-        return a + (b.item.price * b.item.quantity)
-      }, initial);
-      return sum
-    }
+      if(state.loginUser.cart.length > 0) {
+        const initial = state.loginUser.cart[0].item.price * state.loginUser.cart[0].item.quantity;
+        const sum = state.loginUser.cart.reduce((a, b) => {
+          return a + (b.item.price * b.item.quantity)
+        }, initial);
+        return sum
+      } else {
+        return 0
+      }
+    },
+    searchMissedFlag: state => state.searchMissedFlag,
   },
   mutations: {
     itemSearch(state, items) {
-      state.items = items;
-      console.log(state.items)
+      if(items.length > 0) {
+        state.searchMissedFlag = false;
+        state.items = items;
+        console.log(state.items)
+      } else {
+        state.searchMissedFlag = true;
+      }
     },
     setUserId(state, uid) {
       state.loginUser.userId = uid;
@@ -192,8 +203,10 @@ export default new Vuex.Store({
       state.loginUser.userId = null;
       state.loginUser.cart = [];
       state.loginUser.histories = [];
-    }
-
+    },
+    searchMissed(state) {
+      state.searchMissedFlag = true;
+    },
   },
   actions: {
     itemSearch(state, keyword) {
@@ -222,8 +235,10 @@ export default new Vuex.Store({
         items.push(item);
       })
       console.log(items);
-      state.commit('itemSearch', items)
-    })
+      state.commit('itemSearch', items);
+    }).catch(() => {
+        state.commit('searchMissed');
+      })
     },
     setUserId(state, uid) {
       state.commit('setUserId', uid)

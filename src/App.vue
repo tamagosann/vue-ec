@@ -21,7 +21,7 @@ export default {
         console.log(uid);
         this.fetchUserInfo(uid);
 
-        if(this.$router.currentRoute.name !== "CartList") {
+        if(this.$router.currentRoute.name !== "ItemList") {
           this.$router.push({name: "ItemList"}, () => {});
         }
       } else {

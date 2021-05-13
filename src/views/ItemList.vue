@@ -15,6 +15,7 @@
 								<div class="col-sm-9">
 									<input type="text" name="code" id="code" class="form-control input-sm" @keyup="keywordKeyUp" v-model="keyword">
 									<p v-show="keywordBlankFlag" class="alert">※キーワードを入力してください</p>
+									<p v-show="searchMissedFlag" class="alert">※キーワードに一致するものがありません。</p>
 								</div>
 							</div>
 							<div class="text-center">
@@ -68,7 +69,7 @@ export default {
     }
   },
 	computed:{
-		...mapGetters(["items"]),
+		...mapGetters(["items", 'searchMissedFlag']),
 	},
 	methods:{
 		// 検索ボタン
@@ -76,6 +77,7 @@ export default {
 			if(this.keyword) {
 				this.itemSearch(this.keyword);
 			} else {
+				this.keywordBlankFlag = true;
 				return;
 			}
 		},

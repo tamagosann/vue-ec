@@ -302,8 +302,8 @@
 
 				<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
 					<div class="form-group">
-						<router-link :to="{name: 'ItemList'}">
-							<input class="form-control btn btn-warning btn-block" value="ホーム画面に戻る">
+						<router-link :to="{name: 'CartList'}">
+							<input class="form-control btn btn-warning btn-block" value="カート画面に戻る">
 						</router-link>
 					</div>
 				</div>

@@ -29,16 +29,21 @@
 									</div>
 								</td>
 								<td style="text-align: center">
-									<div>
-										商品名：{{cartItem.item.name}}
-										<!-- {{cartItem}} -->
+									<div class="bold">
+										【商品名】
 									</div>
-									<br>
 									<div>
-										消費キャプション：{{cartItem.item.description}}
-										<!-- {{cartItem}} -->
+										{{cartItem.item.name}}
 									</div>
+
 									<br>
+									<div v-show="cartItem.item.description" class="bold">
+										【商品キャプション】
+									</div>
+									<div>
+										{{cartItem.item.description}}
+										<br>
+									</div>
 									<div class="price">
 										{{cartItem.item.price.toLocaleString()}}円 × {{cartItem.item.quantity}}個
 									</div>
@@ -53,7 +58,7 @@
 					</table>
 					
 					<!-- 合計金額 -->
-					<div class="row">
+					<div class="row description">
 						<div class="col-xs-offset-2 col-xs-8">
 							<div class="form-group text-center">
 								<div>小計：{{ noTaxSumPrice.toLocaleString() }}円</div>
@@ -65,12 +70,22 @@
 					</div>
 
 					<!-- 注文に進むボタン -->
-					<div class="row">
-						<div class="col-xs-offset-4 col-xs-4">
-							<div class="form-group" style="text-align: center">
+					<div class="btnContainer">
+
+						<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
+							<div class="form-group">
 								<input class="form-control btn btn-warning btn-block" type="submit" value="注文に進む" @click="submit">
 							</div>
 						</div>
+						
+						<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
+							<div class="form-group">
+								<router-link :to="{name: 'ItemList'}" style="text-decoration: none">
+									<input class="form-control btn btn-warning btn-block" value="ホーム画面に戻る">
+								</router-link>
+							</div>
+						</div>
+
 					</div>
 				</div>
 
@@ -153,7 +168,7 @@ export default({
 })
 </script>
 
-<style>
+<style scoped>
 	.table{
 		margin-left: auto;
 		margin-right: auto;
@@ -164,5 +179,27 @@ export default({
 		height: 100px;
 		font-size: 40px;
 	}
+	.btnContainer{
+		display: flex;
+		justify-content: center;
+	}
+	.bold{
+		font-weight: bold;
+	}
+	.description{
+		font-size: 25px
+	}
+	button input {
+    text-decoration: none;
+    opacity: 1;
+    transition: all 0.3s;
+	}
+	button:hover {
+		opacity: 0.7;
+	}
+	input:hover {
+		opacity: 0.7;
+	}
+
 
 </style>

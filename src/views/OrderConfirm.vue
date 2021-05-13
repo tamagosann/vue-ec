@@ -249,7 +249,7 @@
 									</div>
 								</td>
 								<td>
-									<input type="number" v-model="info.creditcardNo">
+									<input type="number" v-model.number="info.creditcardNo">
 								</td>
 							</tr>
 						</tbody>

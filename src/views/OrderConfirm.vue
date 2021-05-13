@@ -59,10 +59,17 @@
 
         <!-- table（お届け先情報） -->
 		<form action="order_finished.html">
+
 			<div class="row">
 				<div
 					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 					<h3 class="text-center">お届け先情報</h3>
+
+					<div v-if="errors.length">
+						<ul class="ul-align-center">
+							<li v-for="error in errors" :key="error" class=" red">{{error}}</li>
+						</ul>
+					</div>
 
 					<table class="table table-striped item-list-table">
 						<tbody>
@@ -73,7 +80,7 @@
 									</div>
 								</td>
 								<td>
-									<input type="text" v-model="info.destinationName">
+									<input type="text" v-model="info.destinationName" required>
 								</td>
 							</tr>
 							<tr>
@@ -93,7 +100,7 @@
 									</div>
 								</td>
 								<td>
-									<input type="email" v-model.number="info.destinationTel">
+									<input type="tel" v-model.number="info.destinationTel">
 								</td>
 							</tr>
 							<tr>
@@ -145,7 +152,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="10" v-model.number="info.destinationTimeHours">10時
+																name="destinationTimeHours" checked="checked" value="10" v-model.number="info.destinationTimeHours">10時
 														</label>
 														<br>
 													</div>
@@ -154,7 +161,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="11" v-model.number="info.destinationTimeHours">11時
+																name="destinationTimeHours" checked="checked" value="11" v-model.number="info.destinationTimeHours">11時
 														</label>
 														<br>
 													</div>
@@ -163,7 +170,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="12" v-model.number="info.destinationTimeHours">12時
+																name="destinationTimeHours" checked="checked" value="12" v-model.number="info.destinationTimeHours">12時
 														</label>
 														<br>
 													</div>
@@ -176,7 +183,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="13" v-model.number="info.destinationTimeHours">13時
+																name="destinationTimeHours" checked="checked" value="13" v-model.number="info.destinationTimeHours">13時
 														</label>
 														<br>
 													</div>
@@ -185,7 +192,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="14" v-model.number="info.destinationTimeHours">14時
+																name="destinationTimeHours" checked="checked" value="14" v-model.number="info.destinationTimeHours">14時
 														</label>
 														<br>
 													</div>
@@ -194,7 +201,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="15" v-model.number="info.destinationTimeHours">15時
+																name="destinationTimeHours" checked="checked" value="15" v-model.number="info.destinationTimeHours">15時
 														</label>
 														<br>
 													</div>
@@ -206,7 +213,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="16" v-model.number="info.destinationTimeHours">16時
+																name="destinationTimeHours" checked="checked" value="16" v-model.number="info.destinationTimeHours">16時
 														</label>
 														<br>
 													</div>
@@ -215,7 +222,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="17" v-model.number="info.destinationTimeHours">17時
+																name="destinationTimeHours" checked="checked" value="17" v-model.number="info.destinationTimeHours">17時
 														</label>
 														<br>
 													</div>
@@ -224,7 +231,7 @@
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
-																name="responsibleCompany" checked="checked" value="18" v-model.number="info.destinationTimeHours">18時
+																name="destinationTimeHours" checked="checked" value="18" v-model.number="info.destinationTimeHours">18時
 														</label>
 														<br>
 													</div>
@@ -263,7 +270,7 @@
 										<div class="col-sm-12" style="text-align: center">
 											<label class="radio-inline">
 												<input type="radio"
-													name="responsibleCompany" checked="checked" :value="0" v-model.number="info.status">代金引換
+													name="paymentMethods"  v-model.number="info.status" :value="0">代金引換
 											</label>
 										</div>
 									</div>
@@ -273,7 +280,7 @@
 										<div class="col-sm-12" style="text-align: center">
 											<label class="radio-inline">
 												<input type="radio"
-													name="responsibleCompany" checked="checked" :value="1" v-model.number="info.status">クレジットカード
+													name="paymentMethods" v-model.number="info.status" :value="1">クレジットカード
 											</label>
 										</div>
 									</div>
@@ -286,13 +293,23 @@
 			</div>
 
 			<!-- 注文ボタン -->
-			<div class="row">
-				<div class="col-xs-offset-4 col-xs-4">
+			<div class="btnContainer">
+				<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
 					<div class="form-group">
-						<input class="form-control btn btn-warning btn-block" type="submit" value="この内容で注文する" @click.prevent="submit">
+						<input class="form-control btn btn-warning btn-block" value="この内容で注文する" @click="submit" >
 					</div>
 				</div>
+
+				<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
+					<div class="form-group">
+						<router-link :to="{name: 'ItemList'}">
+							<input class="form-control btn btn-warning btn-block" value="ホーム画面に戻る">
+						</router-link>
+					</div>
+				</div>
+			
 			</div>
+
 		</form>
 
     </div>
@@ -318,29 +335,63 @@ export default({
 				{title: "クレジットカード"},
 			],
 			info: {
-				orderDate: '',
 				destinationName: '',
+				email: '',
+				destinationTel: '',
 				destinationZipcode: '',
 				destinationAddress: '',
-				destinationTel: '',
 				destinationTime: '',
 				destinationTimeHours: '',
 				creditcardNo: '',
 				status: 0,
+				orderDate: '',
 			},
+			// validation
+			errors: []
 		}
 	},
 	computed: {
-		...mapGetters(['loginUser', 'cart', 'noTaxSumPrice']),
+		...mapGetters(['cart', 'noTaxSumPrice']),
 	},
 	methods: {
 		submit(){
+			this.errors = []
 			const now = new Date()
 			this.info.orderDate = now
-			if(this.info) {
-				this.settleAction(this.info)
-				this.$router.push({name: 'OrderFinished'})
-			} 
+				if (!this.info.destinationName){
+					this.errors.push('名前を入力してください')
+				}
+				if (!this.info.email){
+					this.errors.push('メールアドレスを入力してください')
+				}
+				if (!this.info.destinationTel){
+					this.errors.push('電話番号を入力してください')
+				}
+				if (!this.info.destinationZipcode){
+					this.errors.push('郵便番号を入力してください')
+				}
+				if (!this.info.destinationAddress){
+					this.errors.push('住所を入力してください')
+				}
+				if (!this.info.destinationTime){
+					this.errors.push('配送日時を選択してください')
+				}
+				if (this.info.destinationTimeHours <= 9 || 19 <= this.info.destinationTimeHours){
+					this.errors.push('配送時間を選択してください')
+				}
+				if (!this.info.creditcardNo){
+					this.errors.push('クレジットカード番号を入力してください')
+				}
+				if (this.info.status !== 0 && this.info.status !== 1){
+					this.errors.push('お支払い方法を選択してください')
+				}
+				// console.log(this.errors.length) 
+				// console.log(this.errors)
+
+				if(!this.errors.length){
+					this.settleAction(this.info)
+					this.$router.push({name: 'OrderFinished'})
+				}
 		},
 		...mapActions(['settleAction']),
 	}
@@ -348,7 +399,7 @@ export default({
 })
 </script>
 
-<style>
+<style scoped>
 	.table{
 		margin-left: auto;
 		margin-right: auto;
@@ -359,6 +410,18 @@ export default({
 	.bold {
 		font-size: 30px;
 		font-weight: bold;
+	}
+	.ul-align-center{
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		}
+	.block {
+		display: block
+	}
+	.btnContainer{
+		display: flex;
+		justify-content: center;
 	}
 
 </style>

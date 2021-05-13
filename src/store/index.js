@@ -206,6 +206,13 @@ export default new Vuex.Store({
     searchMissed(state) {
       state.searchMissedFlag = true;
     },
+    deleteCartNoUser(state, item) {
+      const newCart = state.loginUser.cart.filter(cartItem => {
+        return cartItem !== item
+      });
+      state.loginUser.cart = newCart;
+      console.log(state);
+    }
   },
   actions: {
     itemSearch(state, keyword) {
@@ -317,6 +324,9 @@ export default new Vuex.Store({
         .then(() => {
           state.commit('deleteCart', item);
         })
+    },
+    deleteCartNoUserAction(state, item) {
+      state.commit('deleteCartNoUser', item);
     },
     settleAction(state, info) {
       state.getters.cart.forEach(cartItem => {

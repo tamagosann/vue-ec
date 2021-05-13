@@ -30,7 +30,12 @@
 								</td>
 								<td style="text-align: center">
 									<div>
-										{{cartItem.item.name}}
+										商品名：{{cartItem.item.name}}
+										<!-- {{cartItem}} -->
+									</div>
+									<br>
+									<div>
+										消費キャプション：{{cartItem.item.description}}
 										<!-- {{cartItem}} -->
 									</div>
 									<br>
@@ -94,7 +99,7 @@ export default({
 		return {
 			tableHeaders: [
 				{title: "商品"},
-				{title: "商品名 / 価格（税抜）"},
+				{title: "商品情報 / 価格（税抜）"},
 			],
 			paymentMethods: [
 				{title: "代金引換", status: 1},

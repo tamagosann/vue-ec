@@ -245,7 +245,7 @@
 									</div>
 								</td>
 								<td style="text-align: center">
-									<input type="number" v-model.number="info.creditcardNo">
+									<input type="number" v-model.number="info.creditcardNo" class="no-spin">
 								</td>
 							</tr>
 						</tbody>

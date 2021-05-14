@@ -4,10 +4,11 @@
 		<div class="row">
 			<div
 				class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
-				<h3 class="text-center page-title marker">注文内容確認</h3>
+
+				<h3 class="text-center page-title sub-marker">注文内容確認</h3>
 
 			<!-- 商品名 / 価格ヘッダー -->
-				<table class="table table-striped item-list-table" style="width: 600px">
+				<table class="table table-striped item-list-table" style="width: 100%">
 					<tbody>
 						<tr>
 							<th width="150px">
@@ -17,13 +18,13 @@
 							</th>
 							<th width="150px">
 								<span class="text-center">
-									商品名 / 価格
+									詳細情報
 								</span>
 							</th>
 						</tr>        
 						<tr v-for="cartItem in cart" :key="cartItem.cartItemId">
 							<td>
-								<div class="center">
+								<div class="center" style="padding-left: 0;">
 									<img :src="cartItem.item.path"
 										class="img-responsive img-rounded item-img-center" width="150" height="150" />
 										<br>
@@ -47,13 +48,14 @@
 		</div>
 
         <div class="row">
-			<div class="col-xs-offset-2 col-xs-8">
-				<div class="form-group text-center">
-					<div>小計：{{noTaxSumPrice.toLocaleString()}}円</div>
-					<div>消費税：{{ Math.floor(noTaxSumPrice * 0.1).toLocaleString() }}円</div>
-					<div id="total-price">合計金額：{{ ((noTaxSumPrice) + (Math.floor(noTaxSumPrice * 0.1))).toLocaleString() }}円（税込）</div>
+			<div class="col-xs-offset-2 col-xs-8 ul-container border-top">
+				<!-- <div class="form-group text-center description border-top"> -->
+				<ul class="form-group text-center description prices">
+					<li>小計：{{noTaxSumPrice.toLocaleString()}}円</li>
+					<li>消費税：{{ Math.floor(noTaxSumPrice * 0.1).toLocaleString() }}円</li>
+					<li id="total-price">合計金額：{{ ((noTaxSumPrice) + (Math.floor(noTaxSumPrice * 0.1))).toLocaleString() }}円（税込）</li>
 					<br>
-				</div>
+				</ul>
 			</div>
 		</div>
 
@@ -65,9 +67,9 @@
 					class="table-responsive col-lg-offset-3 col-lg-6 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
 					<h3 class="text-center page-title marker">お届け先情報</h3>
 
-					<div v-if="errors.length">
-						<ul class="ul-align-center">
-							<li v-for="error in errors" :key="error" class=" red">{{error}}</li>
+					<div v-if="errors.length" class="ul-container">
+						<ul class="errors">
+							<li v-for="error in errors" :key="error" class="red">{{error}}</li>
 						</ul>
 					</div>
 
@@ -79,7 +81,7 @@
 										お名前
 									</div>
 								</td>
-								<td>
+								<td style="text-align: center">
 									<input type="text" v-model="info.destinationName" required>
 								</td>
 							</tr>
@@ -89,7 +91,7 @@
 										メールアドレス
 									</div>
 								</td>
-								<td>
+								<td style="text-align: center">
 									<input type="email" v-model="info.email">
 								</td>
 							</tr>
@@ -99,7 +101,7 @@
 										電話番号
 									</div>
 								</td>
-								<td>
+								<td style="text-align: center">
 									<input type="tel" v-model.number="info.destinationTel">
 								</td>
 							</tr>
@@ -109,7 +111,7 @@
 										郵便番号
 									</div>
 								</td>
-								<td>
+								<td style="text-align: center">
 									<input type="number" v-model.number="info.destinationZipcode">
 								</td>
 							</tr>
@@ -119,7 +121,7 @@
 										住所
 									</div>
 								</td>
-								<td>
+								<td style="text-align: center">
 									<input type="text" v-model="info.destinationAddress">
 								</td>
 							</tr>
@@ -130,7 +132,7 @@
 										配達日時
 									</div>
 								</td>
-								<td>
+								<td style="text-align: center">
 									<div class="form-group">
 										<div class="row">
 											<div class="col-sm-12">
@@ -139,22 +141,23 @@
 											</div>
 
 											<!-- カレンダー -->
-											<div style="width:200px">
-												<input type="date" name="name" id="name"
-													class="form-control input-sm" v-model="info.destinationTime"/>
+											<div style="width:200px; margin: 0 auto">
+												<input type="date" name="name" id="name" class="form-control input-sm" v-model="info.destinationTime"/>
 											</div>
 
 										</div>
 
 										<!-- ラジオボタン（配送時間） -->
+										<div class="center">
+
 											<tr>
+												<!-- <td class="row" style="width: 90px"> -->
 												<td class="row">
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
 																name="destinationTimeHours" checked="checked" value="10" v-model.number="info.destinationTimeHours">10時
 														</label>
-														<br>
 													</div>
 												</td>
 												<td class="row">
@@ -163,7 +166,6 @@
 															<input type="radio"
 																name="destinationTimeHours" checked="checked" value="11" v-model.number="info.destinationTimeHours">11時
 														</label>
-														<br>
 													</div>
 												</td>
 												<td class="row">
@@ -172,20 +174,18 @@
 															<input type="radio"
 																name="destinationTimeHours" checked="checked" value="12" v-model.number="info.destinationTimeHours">12時
 														</label>
-														<br>
 													</div>
 												</td>
 												
 											</tr>
 
 											<tr>
-												<td class="row">
+												<td class="row" style="width: 90px">
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
 																name="destinationTimeHours" checked="checked" value="13" v-model.number="info.destinationTimeHours">13時
 														</label>
-														<br>
 													</div>
 												</td>
 												<td class="row">
@@ -194,7 +194,6 @@
 															<input type="radio"
 																name="destinationTimeHours" checked="checked" value="14" v-model.number="info.destinationTimeHours">14時
 														</label>
-														<br>
 													</div>
 												</td>
 												<td class="row">
@@ -203,19 +202,17 @@
 															<input type="radio"
 																name="destinationTimeHours" checked="checked" value="15" v-model.number="info.destinationTimeHours">15時
 														</label>
-														<br>
 													</div>
 												</td>
 											</tr>
 
 											<tr>
-												<td class="row">
+												<td class="row" style="width: 90px">
 													<div class="col-sm-12">
 														<label class="radio-inline">
 															<input type="radio"
 																name="destinationTimeHours" checked="checked" value="16" v-model.number="info.destinationTimeHours">16時
 														</label>
-														<br>
 													</div>
 												</td>
 												<td class="row">
@@ -224,7 +221,6 @@
 															<input type="radio"
 																name="destinationTimeHours" checked="checked" value="17" v-model.number="info.destinationTimeHours">17時
 														</label>
-														<br>
 													</div>
 												</td>
 												<td class="row">
@@ -233,10 +229,10 @@
 															<input type="radio"
 																name="destinationTimeHours" checked="checked" value="18" v-model.number="info.destinationTimeHours">18時
 														</label>
-														<br>
 													</div>
 												</td>
 											</tr>
+										</div>
 
 
 									</div>
@@ -248,7 +244,7 @@
 										クレジットカード番号
 									</div>
 								</td>
-								<td>
+								<td style="text-align: center">
 									<input type="number" v-model.number="info.creditcardNo">
 								</td>
 							</tr>
@@ -294,17 +290,18 @@
 
 			<!-- 注文ボタン -->
 			<div class="btnContainer">
+
 				<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
 					<div class="form-group">
-						<input class="form-control btn btn-warning btn-block bottom-btn" value="この内容で注文する" @click="submit" >
+						<router-link :to="{name: 'CartList'}" style="text-decoration: none">
+							<input class="form-control btn btn-warning btn-block bottom-btn" value="カート画面に戻る">
+						</router-link>
 					</div>
 				</div>
 
 				<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
 					<div class="form-group">
-						<router-link :to="{name: 'CartList'}">
-							<input class="form-control btn btn-warning btn-block bottom-btn" value="カート画面に戻る">
-						</router-link>
+						<input class="form-control btn btn-warning btn-block bottom-btn" value="この内容で注文する" @click="submit" >
 					</div>
 				</div>
 			
@@ -411,11 +408,16 @@ export default({
 		font-size: 30px;
 		font-weight: bold;
 	}
-	.ul-align-center{
-		display: flex;
-		align-items: center;
-		flex-direction: column;
-		}
+	.description{
+		font-size: 25px
+	}
+	/* .ul-align-center{ */
+		/* display: flex; */
+		/* align-items: center; */
+		/* text-align: left; */
+		/* align-items: left; */
+		/* flex-direction: column; */
+	/* } */
 	.block {
 		display: block
 	}
@@ -449,8 +451,37 @@ export default({
 		width: 250px;
 		margin: 30px auto;
 	}
+	.sub-marker {
+		background: linear-gradient(transparent 50%, #ffcc66 80%);
+		width: 250px;
+		margin: 0 auto 60px;
+	}	
+	.border-top{
+		border-top: 1px solid rgba(0,0,0,0.4);
+		border-bottom: 1px solid rgba(0,0,0,0.4);
+		padding-top: 30px;
+	}
 	.bottom-btn {
 		margin: 40px 0 100px 0;
+	}
+	.ul-container{
+		display: flex;
+		justify-content: center;
+	}
+	.prices {
+		list-style-type: none;
+		text-align: left;
+		margin: 0 auto;
+	}
+	.errors{
+		text-align: left;
+	}
+	.center {
+		text-align: center;
+		padding-left: 70px;
+	}
+	.address-info-table{
+		width: 650px;
 	}
 
 </style>

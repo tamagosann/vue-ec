@@ -1,59 +1,51 @@
 <template>
-  <nav class="navbar navbar-default">
-    <div class="container-fluid">
+  <nav>
+    <div style="display: flex; justify-content: space-between; padding: 20px; margin-bottom: 30px">
       <!-- Brand and toggle get grouped for better mobile display -->
-      <div class="navbar-header">
-        <button
-          type="button"
-          class="navbar-toggle collapsed"
-          data-toggle="collapse"
-          data-target="#bs-example-navbar-collapse-1"
-          aria-expanded="false"
-        >
-          <span class="sr-only">Toggle navigation</span
-          ><span class="icon-bar"></span> <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <router-link :to="{name: 'ItemList'}">
-        <a class="navbar-brand" style="padding:0px;">
-            <!-- 企業ロゴ -->
+      
+          <router-link :to="{name: 'ItemList'}">
+          <a class="navbar-brand" style="padding:0px;">
+              <!-- 企業ロゴ -->
 
-            <img alt="main log" src="@/assets/images/header-logo.png" height="50px"/>
+              <img alt="main log" src="@/assets/images/header-logo.png" height="50px"/>
 
-          </a>
-        </router-link>
-      </div>
+            </a>
+          </router-link>
+       
       <!-- Collect the nav links, forms, and other content for toggling -->
-      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-        <p class="navbar-text navbar-right">
-          <router-link :to="{ name: 'ItemList' }">
-            <a class="navbar-link mr-2">商品一覧へ</a>&nbsp;&nbsp;
-          </router-link>
-          <router-link :to="{ name: 'CartList' }">
-            <a class="navbar-link mr-2">ショッピングカート</a>&nbsp;&nbsp;
-          </router-link>
-          <router-link :to="{ name: 'History' }">
-            <a v-show="uid !== null" class="navbar-link mr-2">注文履歴</a
+        <div id="bs-example-navbar-collapse-1" style="text-align: center">
+
+          <p class="navbar-text">
+            <router-link :to="{ name: 'ItemList' }" style="text-decoration: none">
+              <a class="navbar-link mr-2" style="text-decoration: none">商品一覧へ</a>&nbsp;&nbsp;
+            </router-link>
+            <router-link :to="{ name: 'CartList' }" style="text-decoration: none">
+              <a class="navbar-link mr-2" style="text-decoration: none">ショッピングカート</a>&nbsp;&nbsp;
+            </router-link>
+            <router-link :to="{ name: 'History' }" style="text-decoration: none">
+              <a v-show="uid !== null" class="navbar-link mr-2" style="text-decoration: none">注文履歴</a
+              >&nbsp;&nbsp;
+            </router-link>
+            <a
+              href=""
+              v-show="uid === null"
+              class="navbar-link"
+              @click.prevent="login"
+               style="text-decoration: none">ログイン</a
             >&nbsp;&nbsp;
-          </router-link>
-          <a
-            href=""
-            v-show="uid === null"
-            class="navbar-link"
-            @click.prevent="login"
-            >ログイン</a
-          >&nbsp;&nbsp;
-          <a
-            href=""
-            v-show="uid !== null"
-            class="navbar-link"
-            @click.prevent="goLogout"
-            >ログアウト</a
-          >
-        </p>
-      </div>
+            <a
+              href=""
+              v-show="uid !== null"
+              class="navbar-link"
+              @click.prevent="goLogout"
+               style="text-decoration: none">ログアウト</a
+            >
+          </p>
+          </div>
+        </div>
+
       <!-- /.navbar-collapse -->
-    </div>
+   
     <!-- /.container-fluid -->
   </nav>
 </template>
@@ -80,5 +72,17 @@ export default {
 <style scoped>
 .mr-2 {
   margin-right: 10px;
+}
+a {
+  text-decoration: none;
+  /* text-decoration: underline; */
+  color:rgba(0,0,0, 0.7);
+  /* display: inline; */
+  text-align: center;
+}
+a:hover{
+  color: red;
+  /* background: linear-gradient(transparent 50%, #ffcc66 80%); */
+
 }
 </style>

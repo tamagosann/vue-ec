@@ -10,7 +10,7 @@
 
 			
 				<!-- 何もないときは表示しない -->
-					<table class="table table-striped item-list-table" style="width:500px">
+					<table class="table table-striped item-list-table">
 						<tbody>
 							<tr>
 								<th v-for="header in tableHeaders" :key="header.title" width="100px">
@@ -20,6 +20,7 @@
 								</th>
 							</tr>
 
+							
 							<tr v-for="cartItem in cart" :key="cartItem.cartItemId">
 								<td>
 									<div class="center">
@@ -32,7 +33,7 @@
 									<div class="bold">
 										
 									</div>
-									<div>
+									<div class="item-container">
 										{{cartItem.item.name}}
 									</div>
 
@@ -44,12 +45,13 @@
 										<br>
 										<br>
 									</div>
-									<div class="price price-and-quantity">
-										{{cartItem.item.price.toLocaleString()}}円 × {{cartItem.item.quantity}}個
-									</div>
-									<br>
-									<div>
-										<button @click.prevent="deleteCart(cartItem)">削除</button>
+									<div class="horizon-container">
+										<div class="price price-and-quantity">
+											{{cartItem.item.price.toLocaleString()}}円 × {{cartItem.item.quantity}}個
+										</div>
+										<div>
+											<button @click.prevent="deleteCart(cartItem)" class="small-bottom-btn">削除</button>
+										</div>
 									</div>
 								</td>
 							</tr>
@@ -58,13 +60,14 @@
 					</table>
 					
 					<!-- 合計金額 -->
-					<div class="row description">
+					<div class="row description prices border-top">
 						<div class="col-xs-offset-2 col-xs-8">
-							<div class="form-group text-center">
-								<div>小計：{{ noTaxSumPrice.toLocaleString() }}円</div>
-								<div>消費税：{{ (Math.floor(noTaxSumPrice * 0.1)).toLocaleString() }}円</div>
-								<div id="total-price">合計金額：{{ Math.floor(noTaxSumPrice * 1.1).toLocaleString() }}円（税込）</div>
-								<br>
+							<div class="form-group text-center ul-container">
+								<ul class="prices">
+									<li>小計：{{ noTaxSumPrice.toLocaleString() }}円</li>
+									<li>消費税：{{ (Math.floor(noTaxSumPrice * 0.1)).toLocaleString() }}円</li>
+									<li id="total-price">合計金額：{{ Math.floor(noTaxSumPrice * 1.1).toLocaleString() }}円（税込）</li>
+								</ul>
 							</div>
 						</div>
 					</div>
@@ -74,17 +77,18 @@
 
 						<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
 							<div class="form-group">
-								<input class="form-control btn btn-warning btn-block" type="submit" value="注文に進む" @click="submit">
-							</div>
-						</div>
-						
-						<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
-							<div class="form-group">
 								<router-link :to="{name: 'ItemList'}" style="text-decoration: none">
-									<input class="form-control btn btn-warning btn-block" value="ホーム画面に戻る">
+									<input class="form-control btn btn-warning btn-block bottom-btn" value="ホーム画面に戻る">
 								</router-link>
 							</div>
 						</div>
+
+						<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
+							<div class="form-group">
+								<input class="form-control btn btn-warning btn-block bottom-btn" type="submit" value="注文に進む" @click="submit">
+							</div>
+						</div>
+						
 
 					</div>
 				</div>
@@ -211,6 +215,7 @@ export default({
 	.price-and-quantity {
 		font-size: 15px;
 		font-weight: bold;
+		margin: 2px 0;
 	}
 	.page-title {
 		margin-bottom: 30px
@@ -218,7 +223,44 @@ export default({
 	.marker {
 		background: linear-gradient(transparent 50%, #ffcc66 80%);
 		width: 250px;
-		margin: 30px auto;
+		margin: 0 auto 60px;
+	}	
+	.bottom-btn {
+		margin: 40px 0 100px 0;
+	}
+	.small-bottom-btn{
+		margin: 0 0 20px 0;
+	}
+	.item-container{
+		margin-top: 30px;
+		padding-right: 10px;
+	}
+	/* .prices{
+		background: #ccc;
+		padding-top: 20px;
+	} */
+	/* .blue-marker {
+		background: linear-gradient(transparent 80%, #66ccff 60%);
+	} */
+	.border-top{
+		border-top: 1px solid rgba(0,0,0,0.4);
+		border-bottom: 1px solid rgba(0,0,0,0.4);
+		padding-top: 30px;
+	}
+	.horizon-container {
+		width: 180px;
+		display: flex;
+		justify-content: space-between;
+		margin: 0 auto;
+	}
+	.ul-container {
+		display: flex;
+	}
+	.prices {
+		list-style-type: none;
+		text-align: left;
+		/* align-items: center; */
+		margin: 0 auto;
 	}
 
 

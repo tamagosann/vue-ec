@@ -112,7 +112,7 @@
 									</div>
 								</td>
 								<td style="text-align: center">
-									<input type="number" v-model.number="info.destinationZipcode">
+									<input type="number" v-model.number="info.destinationZipcode" class="no-spin">
 								</td>
 							</tr>
 							<tr>
@@ -276,7 +276,7 @@
 										<div class="col-sm-12" style="text-align: center">
 											<label class="radio-inline">
 												<input type="radio"
-													name="paymentMethods" v-model.number="info.status" :value="1">クレジットカード
+													name="paymentMethods" v-model.number="info.status" :value="1" class="no-spin">クレジットカード
 											</label>
 										</div>
 									</div>
@@ -483,5 +483,11 @@ export default({
 	.address-info-table{
 		width: 650px;
 	}
+	.no-spin::-webkit-inner-spin-button,
+	.no-spin::-webkit-outer-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+    -moz-appearance:textfield !important;
+}
 
 </style>

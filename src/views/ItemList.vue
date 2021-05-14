@@ -38,9 +38,9 @@
 								<div class="card-img-box">
 										<img :src="item.path" class="card-img">
 								</div><br>
-								<div>{{item.name}}</div>
+								<div class="card-name">{{item.name}}</div>
 								<br>
-								<span class="">価格</span>&nbsp;&nbsp;{{item.price}}円<br>
+								<span class="price-and-quantity">価格</span>&nbsp;&nbsp;{{item.price.toLocaleString()}}円<br>
 							</a>			
 						</router-link>
 					</div>
@@ -116,7 +116,7 @@ export default {
 		padding: 10px;
 		border-radius: 10px;
 		margin: 10px;
-		width: 224px;
+		width: 20%;
 		flex: 0 0 auto;
 	}
 	.card-img-box {
@@ -133,7 +133,19 @@ export default {
 		max-width:200px;
 		max-height:200px;
 	}
+	.card-name {
+		color: black;
+		height: 100px;
+		display: block;
+    overflow: hidden;
+	}
+
 	.alert {
 		color: tomato;
+	}
+
+	.price-and-quantity {
+		font-size: 15px;
+		font-weight: bold;
 	}
 </style>

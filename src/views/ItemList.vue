@@ -121,8 +121,8 @@ export default {
 	}
 	.card-img-box {
 		display:block;
-		width:200px;
-		height:200px;
+		max-width: 100%;
+		height: 200px;
 		overflow:hidden;
 		margin:0 auto;
 	}
@@ -130,7 +130,7 @@ export default {
 		object-fit:cover;
 		width:100%;
 		height:100%;
-		max-width:200px;
+		max-width:100%;
 		max-height:200px;
 	}
 	.card-name {

@@ -133,6 +133,14 @@ export default({
 	methods: {
 		submit(){
 			if(!this.uid) {
+				const NologinCart = [];
+				this.cart.forEach(cartItem => {
+					const newCartItem = cartItem.item;
+					NologinCart.push(newCartItem);
+				})
+				console.log(NologinCart);
+				localStorage.setItem('nologincart', JSON.stringify(NologinCart));
+				
 				this.login();
 
 			// 以下のコメントアウトは、ログイン時のカート保持に失敗した残骸です。

@@ -165,8 +165,9 @@ export default new Vuex.Store({
       state.loginUser.histories = user.history;
       console.log(state);
     },
-    deleteLoginUser(state) {
+    deleteLoginUser(state, cartItems) {
       state.loginUser.userId = null;
+      state.loginUser.cart = cartItems;
     },
     addUserInfo(state, info){
       const history = {
@@ -258,9 +259,29 @@ export default new Vuex.Store({
       state.commit('logout');
     },
     deleteLoginUser(state) {
-      state.commit('deleteLoginUser');
+      let cartItems = JSON.parse(
+        localStorage.getItem('nologincart') || '[]'
+      );
+      state.commit('deleteLoginUser', cartItems);
     },
     fetchUserInfo(state, uid) {
+      let cartItems = JSON.parse(
+        localStorage.getItem('nologincart') || '[]'
+      );
+      if(cartItems.length > 0) {
+        cartItems.forEach(item => {
+          const newItem = {
+            ...item,
+            userId: uid,
+          }
+          firebase.firestore().collection(`users/${uid}/cart`).add(newItem)
+            .then(() => {
+              console.log('firebaseについかしました')
+              console.log(newItem)
+            });
+        });
+        localStorage.setItem('nologincart', JSON.stringify([]));
+      }
       const user = {
         userId: uid,
         cart: [],

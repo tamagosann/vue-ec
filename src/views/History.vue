@@ -4,12 +4,12 @@
 		<div v-show="histories.length > 0">
 
 			<div class="row">
-				<div
-					class="col-lg-offset-3 col-lg-6 col-md-offset-2 margin-auto">
-					<h3 class="text-center page-title">注文履歴</h3>
+				<!-- <div class="col-lg-offset-3 col-lg-6 col-md-offset-2"> -->
+				<div class="table-responsive col-lg-offset-1 col-lg-10 col-md-offset-1 col-md-10 col-sm-10 col-xs-12">
+					<h3 class="text-center page-title marker">注文履歴</h3>
 
 				<!-- 商品名 / 価格ヘッダー -->
-					<table class="table table-striped item-list-table" style="max-width: 600px">
+					<table class="table table-striped item-list-table">
 						<tbody>
 							<tr>
 								<th width="150px">
@@ -23,6 +23,7 @@
 									</span>
 								</th>
 							</tr>
+							
 							<tr v-for="history in histories" :key="history.historyItemId">
 								<td>
 									<div class="center">
@@ -33,34 +34,35 @@
 								</td>
 								<td style="text-align: center">
 									<div>
-										<div>
+										<div class="item-container">
 											{{history.item.name}}
 										</div>
 										<div class="price price-and-quantity">
 											{{history.item.price.toLocaleString()}}円 × {{history.item.quantity}}個	
 										</div>
-										
-										<ul class="order-info-ul">
-											<li>
-												状態：{{history.status | status}}
-											</li>
-											<li>
-												<div v-if="history.status !== 9">
-													お届け先住所：{{history.destinationAddress}}
-												</div>
-											</li>
-											<li>
-												<div v-if="history.status !== 9">
-													お届け予定日：{{history.destinationTime}}
-												</div>
-											</li>
-										</ul>
+										<div class="ul-container">
+											<ul class="order-info-ul delivery-info">
+												<li>
+													状態：{{history.status | status}}
+												</li>
+												<li>
+													<div v-if="history.status !== 9">
+														お届け先住所：{{history.destinationAddress}}
+													</div>
+												</li>
+												<li>
+													<div v-if="history.status !== 9">
+														お届け予定日：{{history.destinationTime}}
+													</div>
+												</li>
+											</ul>
+										</div>
 										
 										
 										
 										<br>
 										<div v-if="history.status !== 9">
-											<button @click.prevent="orderCancell(history)">購入をキャンセル</button>
+											<button @click.prevent="orderCancell(history)" class="small-bottom-btn">購入をキャンセル</button>
 										</div>
 									</div>
 								</td>
@@ -71,11 +73,19 @@
 
 					<!-- 注文に進むボタン -->
 					<div class="btnContainer">
-						
+
 						<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
 							<div class="form-group">
 								<router-link :to="{name: 'ItemList'}" style="text-decoration: none">
-									<input class="form-control btn btn-warning btn-block" value="ホーム画面に戻る">
+									<input class="form-control btn btn-warning btn-block bottom-btn" value="ホーム画面に戻る">
+								</router-link>
+							</div>
+						</div>
+
+						<div class="col-xs-offset-4 col-xs-4" style="margin: 0">
+							<div class="form-group">
+								<router-link :to="{name: 'CartList'}" style="text-decoration: none">
+									<input class="form-control btn btn-warning btn-block bottom-btn" value="カート画面に戻る">
 								</router-link>
 							</div>
 						</div>
@@ -156,9 +166,9 @@ export default({
 		font-size: 25px
 	}
 	button input {
-    text-decoration: none;
-    opacity: 1;
-    transition: all 0.3s;
+		text-decoration: none;
+		opacity: 1;
+		transition: all 0.3s;
 	}
 	button:hover {
 		opacity: 0.7;
@@ -177,16 +187,47 @@ export default({
 	.price-and-quantity {
 		font-size: 15px;
 		font-weight: bold;
-		margin:  10px 0;
+		margin:  25px 0;
 	}
 	.order-info-ul {
 		list-style-type: none;
 		text-align: left;
-		margin-left: 15px;
+		/* margin-left: 15px; */
+		margin: 0 auto; 
 
 	}
 	.page-title {
 		margin-bottom: 30px
+	}
+	/* .marker {
+		background: linear-gradient(transparent 50%, #ffcc66 80%);
+		width: 250px;
+		margin: 30px auto;
+	} */
+	.marker {
+		background: linear-gradient(transparent 50%, #ffcc66 80%);
+		width: 250px;
+		margin: 0 auto 60px;
+	}	
+	.bottom-btn {
+		margin: 40px 0 100px 0;
+	}
+	.small-bottom-btn{
+		margin: 0 0 20px 0;
+	}
+	.delivery-info {
+		font-size: 12px;
+		color: rgba(0, 0, 0, 0.5)
+	}
+	.item-container{
+		padding-top: 20px;
+	}
+	.display-center{
+		padding: 0 auto;
+	}
+	.ul-container{
+		display: flex;
+
 	}
 
 </style>
